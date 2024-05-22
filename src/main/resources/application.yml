@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: user-provider-application
+  kafka:
+    bootstrap-servers: ${BOOTSTRAP_SERVER}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+    consumer:
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: com.bloggios.user
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT:5432}/${POSTGRES_DATABASE}?currentSchema=user-provider
+    hikari:
+      username: ${POSTGRES_USERNAME}
+      password: ${POSTGRES_PASSWORD}
+      maximum-pool-size: ${POSTGRES_POOL_SIZE:100}
+      minimum-idle: ${POSTGRES_IDLE:7}
+      leak-detection-threshold: 120000
+      max-lifetime: 1800000
+      idle-timeout: 600000
+      connection-timeout: 600000
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+application:
+  version: @version@
+  profile: ${ACTIVE_PROFILE}
+
+elasticsearch:
+  server: ${ES_SERVER:localhost}
+  username: ${ES_USERNAME:root}
+  password: ${ES_PASSWORD:root}
+  indices:
+    profile: ${ACTIVE_PROFILE:local}.user-provider.profile
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+    enabled: false
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
+user-provider:
+  kafka:
+    producer:
+      topics:
+        registration-otp: ${ACTIVE_PROFILE:local}.auth-provider.registration-otp
+        password-changed: ${ACTIVE_PROFILE:local}.auth-provider.password-changed
+        forget-password: ${ACTIVE_PROFILE:local}.auth-provider.forget-password
+        user: ${ACTIVE_PROFILE:local}.auth-provider.user
+    consumer:
+      group-id: ${ACTIVE_PROFILE:local}.auth-provider.application
+      topics:
+        profile-added: ${ACTIVE_PROFILE:local}.user-provider.profile-added
+        profile-badge: ${ACTIVE_PROFILE:local}.user-provider.profile-badge
