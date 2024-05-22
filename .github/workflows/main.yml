@@ -1,0 +1,110 @@
+name: auth-provider-application devsandbox
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }}
+      - uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Stopping Container
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /root/bloggios-deployment-docker-files
+            git stash
+            git pull origin main
+            set +e
+            docker-compose -f docker-compose-devsandbox.yml stop auth-provider-application
+            docker-compose -f docker-compose-devsandbox.yml stop auth-provider-social-application
+            docker rmi auth-provider-application:1.0
+            set -e
+
+      - name: Copying Logback
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
+          port: 22
+          script: |
+            rm /root/microservices/auth-provider-application/src/main/resources/auth-logback.xml
+            cp /root/secrets/logback/auth-logback.xml /root/microservices/auth-provider-application/src/main/resources
+
+      - name: Copying Secrets
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
+          port: 22
+          script: |
+               set +e
+               rm /root/microservices/auth-provider-application/src/main/resources/security/privkey.pem
+               /root/microservices/auth-provider-application/src/main/resources/security/pubkey.pem
+               set -e
+               cp /root/secrets/certificates/privkey.pem /root/microservices/auth-provider-application/src/main/resources/security
+               cp /root/secrets/certificates/pubkey.pem /root/microservices/auth-provider-application/src/main/resources/security
+
+      - name: Generating Docker Image for Bloggios
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /root/microservices/auth-provider-application
+            git stash
+            git pull origin main
+            chmod +x mvnw
+            ./mvnw clean package
+
+      - name: Deploy Docker Image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /root/bloggios-deployment-docker-files
+            docker-compose -f docker-compose-devsandbox.yml up -d auth-provider-application
+            docker-compose -f docker-compose-devsandbox.yml up -d auth-provider-social-application
+
+      - name: Removing Targets
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /root/microservices/auth-provider-application
+            rm target -r
