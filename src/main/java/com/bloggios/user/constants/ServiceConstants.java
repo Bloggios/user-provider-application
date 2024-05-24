@@ -51,4 +51,11 @@ public class ServiceConstants {
     public static final String BREADCRUMB_ID = "breadcrumbId";
     public static final String X_FORWARDED_FOR = "X-Forwarded-For";
     public static final String DEFAULT_IP = "1.1.1.1";
+    public static final String PROFILE_TABLE = "profile";
+    public static final String RANDOM_UUID = "randomUUID";
+    public static final String NAME_REGEX = "^[a-zA-Z\\s]*$";
+    public static final String UNSECURED_PROTOCOL = "http://";
+    public static final String SECURED_PROTOCOL = "https://";
+    public static final String AUTH_PROVIDER_APPLICATION = "auth-provider-application";
+    public static final String AUTHORIZATION = "Authorization";
 }

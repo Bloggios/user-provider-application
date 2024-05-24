@@ -23,10 +23,13 @@
 
 package com.bloggios.user.exception;
 
-import com.bloggios.user.constants.InternalExceptionCodes;
+import com.bloggios.authenticationconfig.exception.AuthenticationConfigException;
+import com.bloggios.user.constants.InternalErrorCodes;
 import com.bloggios.user.constants.ServiceConstants;
 import com.bloggios.user.exception.payloads.BadRequestException;
+import com.bloggios.user.exception.payloads.InternalException;
 import com.bloggios.user.payload.response.ExceptionResponse;
+import com.bloggios.user.payload.response.ModuleResponse;
 import com.bloggios.user.properties.FetchErrorProperties;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.slf4j.Logger;
@@ -40,7 +43,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Objects;
 
-import static com.bloggios.user.constants.InternalExceptionCodes.INTERNAL_ERROR;
+import static com.bloggios.user.constants.InternalErrorCodes.INTERNAL_ERROR;
 
 /**
  * Owner - Rohit Parihar
@@ -95,6 +98,39 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InternalException.class)
+    public ResponseEntity<ExceptionResponse> handleInternalException(InternalException internalException) {
+        ExceptionResponse exceptionResponse = fetchErrorProperties.exceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, internalException.getCode());
+        if (Objects.nonNull(internalException.getMessage())) {
+            exceptionResponse = fetchErrorProperties.generateExceptionResponse(HttpStatus.BAD_REQUEST, internalException.getMessage(), internalException.getCode());
+        }
+        logger.error("""
+                Internal Exception Occurred : {}
+                Message : {}
+                Field : {}
+                Code : {}
+                Type : {}
+                """,
+                MDC.get(ServiceConstants.BREADCRUMB_ID),
+                exceptionResponse.getMessage(),
+                exceptionResponse.getField(),
+                exceptionResponse.getCode(),
+                exceptionResponse.getType());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(AuthenticationConfigException.class)
+    public ResponseEntity<ModuleResponse> handleAuthenticationConfigException(AuthenticationConfigException authenticationConfigException) {
+        ModuleResponse build = ModuleResponse.builder().message(authenticationConfigException.getMessage()).build();
+        logger.error("""
+                Authentication Config Exception Occurred : {}
+                Message : {}
+                """,
+                MDC.get(ServiceConstants.BREADCRUMB_ID),
+                build.getMessage());
+        return new ResponseEntity<>(build, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exception) {
         ExceptionResponse build = getUncaughtExceptionResponse(exception);
@@ -118,7 +154,7 @@ public class GlobalExceptionHandler {
         ExceptionResponse build = ExceptionResponse
                 .builder()
                 .message(exception.getMessage())
-                .code(InternalExceptionCodes.JSON_DESERIALIZATION)
+                .code(InternalErrorCodes.JSON_DESERIALIZATION)
                 .status(HttpStatus.NOT_ACCEPTABLE.name())
                 .type(ServiceConstants.INTERNAL_ERROR_TYPE)
                 .build();

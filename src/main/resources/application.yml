@@ -33,6 +33,7 @@ spring:
 application:
   version: @version@
   profile: ${ACTIVE_PROFILE}
+  base-path: ${BASE_PATH}
 
 elasticsearch:
   server: ${ES_SERVER:localhost}
@@ -61,10 +62,7 @@ user-provider:
   kafka:
     producer:
       topics:
-        registration-otp: ${ACTIVE_PROFILE:local}.auth-provider.registration-otp
-        password-changed: ${ACTIVE_PROFILE:local}.auth-provider.password-changed
-        forget-password: ${ACTIVE_PROFILE:local}.auth-provider.forget-password
-        user: ${ACTIVE_PROFILE:local}.auth-provider.user
+        profile-added: ${ACTIVE_PROFILE:local}.user-provider.profile-added
     consumer:
       group-id: ${ACTIVE_PROFILE:local}.auth-provider.application
       topics:

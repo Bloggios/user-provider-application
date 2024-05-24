@@ -23,7 +23,7 @@
 
 package com.bloggios.user.utils;
 
-import com.bloggios.user.constants.InternalExceptionCodes;
+import com.bloggios.user.constants.InternalErrorCodes;
 import com.bloggios.user.payload.IncomingMessageData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,9 +48,10 @@ public class MessageDataDeserializer extends StdConverter<String, IncomingMessag
         try {
             IncomingMessageData messageData = mapper.readValue(s, IncomingMessageData.class);
             messageData.setData(mapper.readValue(messageData.getData().toString(), Object.class));
+            messageData.setBreadcrumbId(messageData.getBreadcrumbId());
             return messageData;
         } catch (JsonProcessingException ignored) {
-            throw new InitializationException(InternalExceptionCodes.JSON_DESERIALIZATION);
+            throw new InitializationException(InternalErrorCodes.JSON_DESERIALIZATION);
         }
     }
 }

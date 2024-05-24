@@ -178,7 +178,9 @@ journey 🚀.
 **Repositories**
 
 - **Auth Provider Application** - [Visit Github](https://github.com/Bloggios/auth-provider-application)
+- **User Provider Application** - [Visit Github](https://github.com/Bloggios/user-provider-application)
 - **Bloggios Mail Service** - [Visit Github](https://github.com/Bloggios/bloggios-mail-service)
+- **Authentication Configuration Jar** - [Visit Github](https://github.com/Bloggios/authentication-configuration-jar)
 - **Bloggios Web UI** - [Visit Github](https://github.com/Bloggios/bloggios-web-ui)
 
 ## <a name="support">🙏Support</a>

@@ -24,7 +24,7 @@
 package com.bloggios.user.ymlparser;
 
 import com.bloggios.user.constants.BeanConstants;
-import com.bloggios.user.constants.InternalExceptionCodes;
+import com.bloggios.user.constants.InternalErrorCodes;
 import com.bloggios.user.constants.ServiceConstants;
 import com.bloggios.user.exception.payloads.InitializationException;
 import org.springframework.context.annotation.Bean;
@@ -57,7 +57,7 @@ public class ImportErrorMessages {
         try{
             properties.load(in);
         } catch(IOException exception){
-            throw new InitializationException(InternalExceptionCodes.FAILED_TO_FETCH_EXCEPTION_CODES);
+            throw new InitializationException(InternalErrorCodes.FAILED_TO_FETCH_EXCEPTION_CODES);
         } finally {
             in.close();
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023-2024 Bloggios
+ * Copyright © 2023-2024 Rohit Parihar and Bloggios
  * All rights reserved.
  * This software is the property of Rohit Parihar and is protected by copyright law.
  * The software, including its source code, documentation, and associated files, may not be used, copied, modified, distributed, or sublicensed without the express written consent of Rohit Parihar.
@@ -21,50 +21,27 @@
  * limitations under the License.
  */
 
-package com.bloggios.user.dao;
+package com.bloggios.user.service;
 
-import com.bloggios.user.enums.DaoStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
+import com.bloggios.user.payload.request.ProfileRequest;
+import com.bloggios.user.payload.response.ModuleResponse;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Owner - Rohit Parihar
  * Author - rohit
- * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.dao
- * Created_on - 29 November-2023
- * Created_at - 23 : 55
+ * Project - auth-provider-write-service
+ * Package - com.bloggios.auth.provider.write.service
+ * Created_on - 30 December-2023
+ * Created_at - 16 : 23
  */
 
-public abstract class AbstractDao<A, B extends JpaRepository<A, String>> {
+public interface ProfileService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AbstractDao.class);
-
-    protected final B repository;
-
-    protected AbstractDao(
-            B repository
-    ) {
-        this.repository = repository;
-    }
-
-    public final A initOperation(DaoStatus status, A a) {
-        return switch (status) {
-            case CREATE -> initCreate(a);
-            case UPDATE -> initUpdate(a);
-        };
-    }
-
-    protected A initUpdate(A a) {
-        logger.info("Postgres Init Operation (Update) @{}", new Date());
-        return repository.save(a);
-    }
-
-    protected A initCreate(A a) {
-        logger.info("Postgres Init Operation (Create) @{}", new Date());
-        return repository.save(a);
-    }
+    CompletableFuture<ModuleResponse> addProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser, HttpServletRequest httpServletRequest);
+    CompletableFuture<ModuleResponse> addImageToProfile(MultipartFile multipartFile, AuthenticatedUser authenticatedUser, String uploadFor);
 }

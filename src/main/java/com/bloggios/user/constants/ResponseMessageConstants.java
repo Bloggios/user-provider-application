@@ -37,4 +37,5 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ResponseMessageConstants {
 
+    public static final String PROFILE_ADDED = "Profile has be created successfully";
 }

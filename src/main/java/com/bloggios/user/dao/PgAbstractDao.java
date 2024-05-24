@@ -21,29 +21,50 @@
  * limitations under the License.
  */
 
-package com.bloggios.user.constants;
+package com.bloggios.user.dao;
 
-import lombok.experimental.UtilityClass;
+import com.bloggios.user.enums.DaoStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Date;
 
 /**
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.constants
+ * Package - com.bloggios.auth.provider.dao
  * Created_on - 29 November-2023
- * Created_at - 00 : 58
+ * Created_at - 23 : 55
  */
 
-@UtilityClass
-public class EnvironmentConstants {
+public abstract class PgAbstractDao<A, B extends JpaRepository<A, String>> {
 
-    public static final String APPLICATION_VERSION = "application.version";
-    public static final String KAFKA_GROUP_ID = "user-provider.kafka.consumer.group-id";
-    public static final String ES_SERVER = "elasticsearch.server";
-    public static final String ES_USERNAME = "elasticsearch.username";
-    public static final String ES_PASSWORD = "elasticsearch.password";
-    public static final String ES_SETTING = "/es-setting.json";
-    public static final String PROFILE_INDEX_GET_PROPERTY = "#{@environment.getProperty('elasticsearch.indices.profile')}";
-    public static final String BASE_PATH = "#{@environment.getProperty('application.base-path')}";
-    public static final String PROFILE_ADDED_TOPIC = "user-provider.kafka.producer.topics.profile-added";
+    private static final Logger logger = LoggerFactory.getLogger(PgAbstractDao.class);
+
+    protected final B repository;
+
+    protected PgAbstractDao(
+            B repository
+    ) {
+        this.repository = repository;
+    }
+
+    public final A initOperation(DaoStatus status, A a) {
+        return switch (status) {
+            case CREATE -> initCreate(a);
+            case UPDATE -> initUpdate(a);
+        };
+    }
+
+    protected A initUpdate(A a) {
+        logger.info("Postgres Init Operation (Update) @{}", new Date());
+        return repository.save(a);
+    }
+
+    protected A initCreate(A a) {
+        logger.info("Postgres Init Operation (Create) @{}", new Date());
+        return repository.save(a);
+    }
 }

@@ -37,4 +37,12 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class EndpointConstants {
 
+    public static class ProfileController {
+        public static final String BASE_PATH = "/profile";
+    }
+
+    public static class FeignClient {
+        public static final String USER_PROFILE_RESPONSE = "/auth-provider/user-profile-response";
+    }
+
 }

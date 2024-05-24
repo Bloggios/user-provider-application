@@ -23,7 +23,7 @@
 
 package com.bloggios.user.utils;
 
-import com.bloggios.user.constants.InternalExceptionCodes;
+import com.bloggios.user.constants.InternalErrorCodes;
 import com.bloggios.user.exception.payloads.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +57,7 @@ public class AsyncUtils {
             return badRequestException;
         } else {
             logger.error("Exception Caused in Async Utils : {}", cause.getMessage(), cause);
-            return new BadRequestException(InternalExceptionCodes.INTERNAL_ERROR);
+            return new BadRequestException(InternalErrorCodes.INTERNAL_ERROR);
         }
     }
 
