@@ -91,8 +91,7 @@ public class ProfileDocument {
     private String username;
 
     @Field(
-            type = FieldType.Text,
-            normalizer = ServiceConstants.DEFAULT_NORMALIZER
+            type = FieldType.Text
     )
     private String bio;
 

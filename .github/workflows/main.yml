@@ -1,4 +1,4 @@
-name: auth-provider-application devsandbox
+name: user-provider-application devsandbox
 
 on:
   push:
@@ -41,9 +41,8 @@ jobs:
             git stash
             git pull origin main
             set +e
-            docker-compose -f docker-compose-devsandbox.yml stop auth-provider-application
-            docker-compose -f docker-compose-devsandbox.yml stop auth-provider-social-application
-            docker rmi auth-provider-application:1.0
+            docker-compose -f docker-compose-devsandbox.yml stop user-provider-application
+            docker rmi user-provider-application:1.0
             set -e
 
       - name: Copying Logback
@@ -54,8 +53,8 @@ jobs:
           key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
           port: 22
           script: |
-            rm /root/microservices/auth-provider-application/src/main/resources/auth-logback.xml
-            cp /root/secrets/logback/auth-logback.xml /root/microservices/auth-provider-application/src/main/resources
+            rm /root/microservices/user-provider-application/src/main/resources/user-logback.xml
+            cp /root/secrets/logback/user-logback.xml /root/microservices/user-provider-application/src/main/resources
 
       - name: Copying Secrets
         uses: appleboy/ssh-action@master
@@ -66,11 +65,11 @@ jobs:
           port: 22
           script: |
                set +e
-               rm /root/microservices/auth-provider-application/src/main/resources/security/privkey.pem
-               /root/microservices/auth-provider-application/src/main/resources/security/pubkey.pem
+               rm /root/microservices/user-provider-application/src/main/resources/security/privkey.pem
+               /root/microservices/user-provider-application/src/main/resources/security/pubkey.pem
                set -e
-               cp /root/secrets/certificates/privkey.pem /root/microservices/auth-provider-application/src/main/resources/security
-               cp /root/secrets/certificates/pubkey.pem /root/microservices/auth-provider-application/src/main/resources/security
+               cp /root/secrets/certificates/privkey.pem /root/microservices/user-provider-application/src/main/resources/security
+               cp /root/secrets/certificates/pubkey.pem /root/microservices/user-provider-application/src/main/resources/security
 
       - name: Generating Docker Image for Bloggios
         uses: appleboy/ssh-action@master
@@ -80,7 +79,7 @@ jobs:
           key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
           port: 22
           script: |
-            cd /root/microservices/auth-provider-application
+            cd /root/microservices/user-provider-application
             git stash
             git pull origin main
             chmod +x mvnw
@@ -95,8 +94,7 @@ jobs:
           port: 22
           script: |
             cd /root/bloggios-deployment-docker-files
-            docker-compose -f docker-compose-devsandbox.yml up -d auth-provider-application
-            docker-compose -f docker-compose-devsandbox.yml up -d auth-provider-social-application
+            docker-compose -f docker-compose-devsandbox.yml up -d user-provider-application
 
       - name: Removing Targets
         uses: appleboy/ssh-action@master
@@ -106,5 +104,5 @@ jobs:
           key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
           port: 22
           script: |
-            cd /root/microservices/auth-provider-application
+            cd /root/microservices/user-provider-application
             rm target -r

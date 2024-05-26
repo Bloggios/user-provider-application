@@ -1,3 +1,7 @@
+server:
+  port: 7002
+  servlet:
+    context-path: /user-provider
 spring:
   application:
     name: user-provider-application
@@ -10,7 +14,7 @@ spring:
         spring.json.add.type.headers: false
     consumer:
       auto-offset-reset: latest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-eserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       properties:
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -66,5 +70,12 @@ user-provider:
     consumer:
       group-id: ${ACTIVE_PROFILE:local}.auth-provider.application
       topics:
-        profile-added: ${ACTIVE_PROFILE:local}.user-provider.profile-added
         profile-badge: ${ACTIVE_PROFILE:local}.user-provider.profile-badge
+
+security-config:
+  exclude:
+    paths:
+      - /actuator/**
+  key-provider:
+    public-key: classpath:security/pubkey.pem
+    private-key: classpath:security/privkey.pem
