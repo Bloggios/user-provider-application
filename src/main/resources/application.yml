@@ -76,6 +76,7 @@ security-config:
   exclude:
     paths:
       - /actuator/**
+      - /profile-auth/**
   key-provider:
     public-key: classpath:security/pubkey.pem
     private-key: classpath:security/privkey.pem

@@ -45,4 +45,9 @@ public class EndpointConstants {
         public static final String USER_PROFILE_RESPONSE = "/auth-provider/user-profile-response";
     }
 
+    public static class ProfileAuthController {
+        public static final String BASE_PATH = "/profile-auth";
+        public static final String PROFILE_TAGS = "/profile-tags";
+    }
+
 }
