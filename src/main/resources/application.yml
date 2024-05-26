@@ -76,7 +76,10 @@ security-config:
   exclude:
     paths:
       - /actuator/**
-      - /profile-auth/**
+  cookie:
+    cookie-name: ${ACTIVE_PROFILE:local}.bg-refresh-mgmt
+    paths:
+      - /user-provider/profile-auth/**
   key-provider:
     public-key: classpath:security/pubkey.pem
     private-key: classpath:security/privkey.pem
