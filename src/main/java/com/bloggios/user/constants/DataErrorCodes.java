@@ -27,4 +27,5 @@ public class DataErrorCodes {
     public static final String USER_LIST_REQUEST_NULL = "DE__USER-2012";
     public static final String FILTER_KEY_NOT_VALID = "DE__USER-2014";
     public static final String SORT_KEY_NOT_VALID = "DE__USER-2015";
+    public static final String PROFILE_NOT_FOUND = "DE__USER-2016";
 }

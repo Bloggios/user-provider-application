@@ -12,6 +12,8 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 /**
  * Owner - Rohit Parihar and Bloggios
  * Author - rohit
@@ -45,5 +47,9 @@ public class ProfileDocumentDao extends EsAbstractDao<ProfileDocument, ProfileDo
                 .search(elasticQuery.build(listRequest), ProfileDocument.class, IndexCoordinates.of(
                         environment.getProperty(EnvironmentConstants.PROFILE_INDEX)
                 ));
+    }
+
+    public Optional<ProfileDocument> findByUserId(String userId) {
+        return repository.findByUserId(userId);
     }
 }

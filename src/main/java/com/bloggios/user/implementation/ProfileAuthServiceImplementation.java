@@ -1,5 +1,6 @@
 package com.bloggios.user.implementation;
 
+import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
 import com.bloggios.elasticsearch.configuration.payload.ListRequest;
 import com.bloggios.user.constants.BeanConstants;
 import com.bloggios.user.constants.DataErrorCodes;
@@ -9,18 +10,17 @@ import com.bloggios.user.enums.ProfileTag;
 import com.bloggios.user.exception.payloads.BadRequestException;
 import com.bloggios.user.payload.request.ProfileListRequest;
 import com.bloggios.elasticsearch.configuration.payload.response.ListResponse;
+import com.bloggios.user.payload.response.ProfileResponse;
 import com.bloggios.user.payload.response.ProfileTagResponse;
 import com.bloggios.user.service.ProfileAuthService;
+import com.bloggios.user.transformer.implementation.ProfileDocumentToProfileResponseTransformer;
 import com.bloggios.user.transformer.implementation.ProfileListToListRequestTransformer;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -37,12 +37,16 @@ public class ProfileAuthServiceImplementation implements ProfileAuthService {
 
     private final ProfileListToListRequestTransformer profileListToListRequestTransformer;
     private final ProfileDocumentDao profileDocumentDao;
+    private final ProfileDocumentToProfileResponseTransformer profileDocumentToProfileResponseTransformer;
 
     public ProfileAuthServiceImplementation(
             ProfileListToListRequestTransformer profileListToListRequestTransformer,
-            ProfileDocumentDao profileDocumentDao) {
+            ProfileDocumentDao profileDocumentDao,
+            ProfileDocumentToProfileResponseTransformer profileDocumentToProfileResponseTransformer
+    ) {
         this.profileListToListRequestTransformer = profileListToListRequestTransformer;
         this.profileDocumentDao = profileDocumentDao;
+        this.profileDocumentToProfileResponseTransformer = profileDocumentToProfileResponseTransformer;
     }
 
     @Override
@@ -63,6 +67,7 @@ public class ProfileAuthServiceImplementation implements ProfileAuthService {
     }
 
     @Override
+    @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
     public CompletableFuture<ListResponse> getProfileList(ProfileListRequest profileListRequest) {
         if (Objects.isNull(profileListRequest)) throw new BadRequestException(DataErrorCodes.USER_LIST_REQUEST_NULL);
         ListRequest transform = profileListToListRequestTransformer.transform(profileListRequest);
@@ -83,5 +88,14 @@ public class ProfileAuthServiceImplementation implements ProfileAuthService {
                         .totalRecordsCount(searchHits!=null ? searchHits.getTotalHits() : 0)
                         .object(list)
                         .build());
+    }
+
+    @Override
+    @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
+    public CompletableFuture<ProfileResponse> getMyProfile(AuthenticatedUser authenticatedUser) {
+        Optional<ProfileDocument> profileOptional = profileDocumentDao.findByUserId(authenticatedUser.getUserId());
+        if (profileOptional.isEmpty()) throw new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND);
+        ProfileResponse transform = profileDocumentToProfileResponseTransformer.transform(profileOptional.get());
+        return CompletableFuture.completedFuture(transform);
     }
 }
