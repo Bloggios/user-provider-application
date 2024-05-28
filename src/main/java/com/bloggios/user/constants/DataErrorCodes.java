@@ -24,4 +24,7 @@ public class DataErrorCodes {
     public static final String UNSECURED_PROTOCOL = "DE__USER-2009";
     public static final String LINK_PROTOCOL_NOT_PRESENT = "DE__USER-2010";
     public static final String PROFILE_ALREADY_PRESENT = "DE__USER-2011";
+    public static final String USER_LIST_REQUEST_NULL = "DE__USER-2012";
+    public static final String FILTER_KEY_NOT_VALID = "DE__USER-2014";
+    public static final String SORT_KEY_NOT_VALID = "DE__USER-2015";
 }

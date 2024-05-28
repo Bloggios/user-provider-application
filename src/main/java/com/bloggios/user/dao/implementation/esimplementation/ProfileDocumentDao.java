@@ -1,8 +1,15 @@
 package com.bloggios.user.dao.implementation.esimplementation;
 
+import com.bloggios.elasticsearch.configuration.elasticdao.ElasticQuery;
+import com.bloggios.elasticsearch.configuration.payload.ListRequest;
+import com.bloggios.user.constants.EnvironmentConstants;
 import com.bloggios.user.dao.EsAbstractDao;
 import com.bloggios.user.dao.repository.elasticsearch.ProfileDocumentRepository;
 import com.bloggios.user.document.ProfileDocument;
+import org.springframework.core.env.Environment;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,7 +24,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProfileDocumentDao extends EsAbstractDao<ProfileDocument, ProfileDocumentRepository> {
 
-    protected ProfileDocumentDao(ProfileDocumentRepository repository) {
+    private final ElasticsearchOperations elasticsearchOperations;
+    private final ElasticQuery elasticQuery;
+    private final Environment environment;
+
+    protected ProfileDocumentDao(
+            ProfileDocumentRepository repository,
+            ElasticsearchOperations elasticsearchOperations,
+            ElasticQuery elasticQuery,
+            Environment environment
+    ) {
         super(repository);
+        this.elasticsearchOperations = elasticsearchOperations;
+        this.elasticQuery = elasticQuery;
+        this.environment = environment;
+    }
+
+    public SearchHits<ProfileDocument> profileDocumentSearchHits(ListRequest listRequest) {
+        return elasticsearchOperations
+                .search(elasticQuery.build(listRequest), ProfileDocument.class, IndexCoordinates.of(
+                        environment.getProperty(EnvironmentConstants.PROFILE_INDEX)
+                ));
     }
 }

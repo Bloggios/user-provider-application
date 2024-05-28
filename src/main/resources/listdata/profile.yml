@@ -1,0 +1,79 @@
+profile:
+  provider:
+    profileId:
+      dataType: STRING
+      filterField: profileId
+      sortField: profileId
+      searchField: profileId
+      searchAllowed: false
+      partialSearch: false
+    name:
+      dataType: STRING
+      filterField: name.verbatim
+      sortField: name.verbatim
+      searchField: name
+      searchAllowed: true
+      partialSearch: true
+    email:
+      dataType: STRING
+      filterField: email.verbatim
+      sortField: email.verbatim
+      searchField: email
+      searchAllowed: true
+      partialSearch: true
+    username:
+      dataType: STRING
+      filterField: username.verbatim
+      sortField: username.verbatim
+      searchField: username
+      searchAllowed: true
+      partialSearch: true
+    bio:
+      dataType: STRING
+      filterField: bio
+      sortField: bio
+      searchField: bio
+      searchAllowed: true
+      partialSearch: false
+    link:
+      dataType: STRING
+      filterField: link
+      sortField: link
+      searchField: link
+      searchAllowed: false
+      partialSearch: false
+    userId:
+      dataType: STRING
+      filterField: userId
+      sortField: userId
+      searchField: userId
+      searchAllowed: false
+      partialSearch: false
+    createdOn:
+      dataType: DATE_TIME
+      filterField: createdOn
+      sortField: createdOn
+      searchField: createdOn
+      searchAllowed: false
+      partialSearch: false
+    updateOn:
+      dataType: DATE_TIME
+      filterField: updatedOn
+      sortField: updatedOn
+      searchField: updatedOn
+      searchAllowed: false
+      partialSearch: false
+    profileTag:
+      dataType: STRING
+      filterField: profileTag
+      sortField: profileTag
+      searchField: profileTag
+      searchAllowed: false
+      partialSearch: false
+    userBadge:
+      dataType: STRING
+      filterField: userBadge
+      sortField: userBadge
+      searchField: userBadge
+      searchAllowed: false
+      partialSearch: false

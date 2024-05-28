@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023-2024 Bloggios
+ * Copyright © 2023-2024 Rohit Parihar and Bloggios
  * All rights reserved.
  * This software is the property of Rohit Parihar and is protected by copyright law.
  * The software, including its source code, documentation, and associated files, may not be used, copied, modified, distributed, or sublicensed without the express written consent of Rohit Parihar.
@@ -21,30 +21,34 @@
  * limitations under the License.
  */
 
-package com.bloggios.user.constants;
+package com.bloggios.user.ymlparser.listparser;
 
-import lombok.experimental.UtilityClass;
+import com.bloggios.elasticsearch.configuration.payload.YamlListDataProvider;
+import com.bloggios.user.ymlparser.factory.YmlFileMapParserFactory;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Owner - Rohit Parihar
  * Author - rohit
- * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.constants
- * Created_on - 29 November-2023
- * Created_at - 00 : 58
+ * Project - user-provider-application
+ * Package - com.bloggios.user.ymlparser.listparser
+ * Created_on - 27 May-2024
+ * Created_at - 13 : 08
  */
 
-@UtilityClass
-public class EnvironmentConstants {
+@PropertySource(value = "classpath:listdata/profile.yml", factory = YmlFileMapParserFactory.class)
+@ConfigurationProperties(prefix = "profile")
+@Configuration
+@Getter
+@Setter
+public class ProfileYmlFileParser {
 
-    public static final String APPLICATION_VERSION = "application.version";
-    public static final String KAFKA_GROUP_ID = "user-provider.kafka.consumer.group-id";
-    public static final String ES_SERVER = "elasticsearch.server";
-    public static final String ES_USERNAME = "elasticsearch.username";
-    public static final String ES_PASSWORD = "elasticsearch.password";
-    public static final String ES_SETTING = "/es-setting.json";
-    public static final String PROFILE_INDEX_GET_PROPERTY = "#{@environment.getProperty('elasticsearch.indices.profile')}";
-    public static final String BASE_PATH = "#{@environment.getProperty('application.base-path')}";
-    public static final String PROFILE_ADDED_TOPIC = "user-provider.kafka.producer.topics.profile-added";
-    public static final String PROFILE_INDEX = "elasticsearch.indices.profile";
+    public Map<String, YamlListDataProvider> provider = new HashMap<>();
 }

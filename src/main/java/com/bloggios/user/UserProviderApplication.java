@@ -8,7 +8,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication(scanBasePackages = {
         "com.bloggios.user",
-        "com.bloggios.authenticationconfig"
+        "com.bloggios.authenticationconfig",
+        "com.bloggios.elasticsearch.configuration"
 })
 @EnableFeignClients
 @EnableEurekaClient
