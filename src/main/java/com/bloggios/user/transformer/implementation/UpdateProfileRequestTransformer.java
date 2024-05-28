@@ -21,28 +21,48 @@
  * limitations under the License.
  */
 
-package com.bloggios.user.service;
+package com.bloggios.user.transformer.implementation;
 
-import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
+import com.bloggios.user.constants.EnvironmentConstants;
+import com.bloggios.user.enums.ProfileTag;
+import com.bloggios.user.modal.ProfileEntity;
 import com.bloggios.user.payload.request.ProfileRequest;
-import com.bloggios.user.payload.response.ModuleResponse;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.concurrent.CompletableFuture;
+import java.time.Instant;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Owner - Rohit Parihar
  * Author - rohit
- * Project - auth-provider-write-service
- * Package - com.bloggios.auth.provider.write.service
- * Created_on - 30 December-2023
- * Created_at - 16 : 23
+ * Project - user-provider-write-service
+ * Package - com.bloggios.user.provider.write.transformer.implementation
+ * Created_on - 26 May-2024
+ * Created_at - 23 : 30
  */
 
-public interface ProfileService {
+@Component
+public class UpdateProfileRequestTransformer {
 
-    CompletableFuture<ModuleResponse> addProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser, HttpServletRequest httpServletRequest);
-    CompletableFuture<ModuleResponse> profileImage(MultipartFile multipartFile, AuthenticatedUser authenticatedUser);
-    CompletableFuture<ModuleResponse> updateProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser);
+    private final Environment environment;
+
+    public UpdateProfileRequestTransformer(
+            Environment environment
+    ) {
+        this.environment = environment;
+    }
+
+    public ProfileEntity transform(ProfileRequest profileRequest, ProfileEntity profileEntity) {
+        profileEntity.setName(profileRequest.getName());
+        profileEntity.setBio(profileRequest.getBio());
+        profileEntity.setLink(profileRequest.getLink());
+        profileEntity.setProfileTag(StringUtils.hasText(profileRequest.getProfileTag()) ? ProfileTag.getByValue(profileRequest.getProfileTag()) : null);
+        profileEntity.setUpdatedOn(Date.from(Instant.now()));
+        profileEntity.setApiVersion(environment.getProperty(EnvironmentConstants.APPLICATION_VERSION));
+        profileEntity.setVersion(UUID.randomUUID().toString());
+        return profileEntity;
+    }
 }

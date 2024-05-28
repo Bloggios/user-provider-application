@@ -28,4 +28,8 @@ public class DataErrorCodes {
     public static final String FILTER_KEY_NOT_VALID = "DE__USER-2014";
     public static final String SORT_KEY_NOT_VALID = "DE__USER-2015";
     public static final String PROFILE_NOT_FOUND = "DE__USER-2016";
+    public static final String IMAGE_NOT_PRESENT = "DE__USER-2017";
+    public static final String NOT_IMAGE_TYPE = "DE__USER-2018";
+    public static final String IMAGE_SIZE_LIMIT_EXCEED = "DE__USER-2019";
+    public static final String INVALID_IMAGE_NAME = "DE__USER-2020";
 }

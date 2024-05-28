@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023-2024 Bloggios
+ * Copyright © 2023-2024 Rohit Parihar and Bloggios
  * All rights reserved.
  * This software is the property of Rohit Parihar and is protected by copyright law.
  * The software, including its source code, documentation, and associated files, may not be used, copied, modified, distributed, or sublicensed without the express written consent of Rohit Parihar.
@@ -21,42 +21,50 @@
  * limitations under the License.
  */
 
-package com.bloggios.user.dao;
+package com.bloggios.user.utils;
 
-import com.bloggios.user.enums.DaoStatus;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import com.bloggios.user.constants.EnvironmentConstants;
+import com.bloggios.user.constants.ServiceConstants;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
+
+import java.util.Objects;
 
 /**
  * Owner - Rohit Parihar
  * Author - rohit
- * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.dao
- * Created_on - 28 May-2024
- * Created_at - 16 : 47
+ * Project - user-provider-write-service
+ * Package - com.bloggios.user.provider.write.utils
+ * Created_on - 26 May-2024
+ * Created_at - 22 : 23
  */
 
-public abstract class EsAbstractDao<A, B extends ElasticsearchRepository<A, String>> {
+@Component
+public class LinkGenerator {
 
-    protected final B repository;
+    private final Environment environment;
 
-    protected EsAbstractDao(
-            B repository
+    public LinkGenerator(
+            Environment environment
     ) {
-        this.repository = repository;
+        this.environment = environment;
     }
 
-    public final A initOperation(DaoStatus status, A a) {
-        return switch (status) {
-            case CREATE -> initCreate(a);
-            case UPDATE -> initUpdate(a);
-        };
-    }
-
-    protected A initUpdate(A a) {
-        return repository.save(a);
-    }
-
-    protected A initCreate(A a) {
-        return repository.save(a);
+    public String generateLink(String imageName) {
+        String profile = environment.getProperty(EnvironmentConstants.ACTIVE_PROFILE);
+        if (ObjectUtils.isEmpty(profile)) {
+            profile = ServiceConstants.DEVSANDBOX;
+        }
+        StringBuilder sb;
+        if (profile.equalsIgnoreCase(ServiceConstants.DEVSANDBOX)) {
+            sb = new StringBuilder(Objects.requireNonNull(environment.getProperty(EnvironmentConstants.DEVSANDBOX_ASSETS)));
+        } else {
+            sb = new StringBuilder(Objects.requireNonNull(environment.getProperty(EnvironmentConstants.PRODUCTION_ASSETS)));
+        }
+        sb
+                .append("/profile/")
+                .append(imageName);
+        return sb.toString();
     }
 }

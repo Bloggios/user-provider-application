@@ -47,4 +47,8 @@ public class EnvironmentConstants {
     public static final String BASE_PATH = "#{@environment.getProperty('application.base-path')}";
     public static final String PROFILE_ADDED_TOPIC = "user-provider.kafka.producer.topics.profile-added";
     public static final String PROFILE_INDEX = "elasticsearch.indices.profile";
+    public static final String PROFILE_IMAGE_PATH = "user-files.profile-photo";
+    public static final String ACTIVE_PROFILE = "application.profile";
+    public static final String DEVSANDBOX_ASSETS = "application.environment.devsandbox-assets";
+    public static final String PRODUCTION_ASSETS = "application.environment.production-assets";
 }

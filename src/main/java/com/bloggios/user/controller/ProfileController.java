@@ -8,10 +8,8 @@ import com.bloggios.user.service.ProfileService;
 import com.bloggios.user.utils.AsyncUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,5 +37,18 @@ public class ProfileController {
     @PostMapping
     public ResponseEntity<ModuleResponse> addProfile(@RequestBody ProfileRequest profileRequest, @AuthenticationPrincipal AuthenticatedUser authenticatedUser, HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.addProfile(profileRequest, authenticatedUser, httpServletRequest)));
+    }
+
+    @PostMapping(EndpointConstants.ProfileController.ADD_PROFILE_IMAGE)
+    public ResponseEntity<ModuleResponse> addImage(
+            @RequestParam MultipartFile image,
+            @AuthenticationPrincipal AuthenticatedUser authenticatedUser
+    ) {
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.profileImage(image, authenticatedUser)));
+    }
+
+    @PutMapping
+    public ResponseEntity<ModuleResponse> updateProfile(@RequestBody ProfileRequest profileRequest, @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.updateProfile(profileRequest, authenticatedUser)));
     }
 }

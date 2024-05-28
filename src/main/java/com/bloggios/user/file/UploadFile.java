@@ -21,28 +21,51 @@
  * limitations under the License.
  */
 
-package com.bloggios.user.service;
+package com.bloggios.user.file;
 
-import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
-import com.bloggios.user.payload.request.ProfileRequest;
-import com.bloggios.user.payload.response.ModuleResponse;
+import com.bloggios.user.utils.RandomGenerators;
+import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.concurrent.CompletableFuture;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Owner - Rohit Parihar
  * Author - rohit
- * Project - auth-provider-write-service
- * Package - com.bloggios.auth.provider.write.service
- * Created_on - 30 December-2023
- * Created_at - 16 : 23
+ * Project - user-provider-write-service
+ * Package - com.bloggios.user.provider.write.file
+ * Created_on - 26 May-2024
+ * Created_at - 22 : 15
  */
 
-public interface ProfileService {
+@Component
+public class UploadFile {
 
-    CompletableFuture<ModuleResponse> addProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser, HttpServletRequest httpServletRequest);
-    CompletableFuture<ModuleResponse> profileImage(MultipartFile multipartFile, AuthenticatedUser authenticatedUser);
-    CompletableFuture<ModuleResponse> updateProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser);
+    private static final Logger logger = LoggerFactory.getLogger(UploadFile.class);
+
+    @SneakyThrows(value = IOException.class)
+    public String uploadImage(String path, MultipartFile multipartFile, String userId) {
+        String originalFilename = multipartFile.getOriginalFilename();
+        String randomName = RandomGenerators.generateRandomImageName(userId);
+        assert originalFilename != null;
+        String imageName = randomName.concat(originalFilename.substring(originalFilename.lastIndexOf(".")));
+        String imagePath = path + File.separator + imageName;
+        File file = new File(path);
+        if (!file.exists()) {
+            boolean mkdir = file.mkdir();
+            logger.warn("""
+                    Path Created : {}
+                    Image Name : {}
+                    Image Path : {}
+                    """, mkdir, imageName, imagePath);
+        }
+        Files.copy(multipartFile.getInputStream(), Paths.get(imagePath));
+        return imageName;
+    }
 }

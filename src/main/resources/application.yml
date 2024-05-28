@@ -38,6 +38,9 @@ application:
   version: @version@
   profile: ${ACTIVE_PROFILE}
   base-path: ${BASE_PATH}
+  environment:
+    devsandbox-assets: https://assets.bloggios.cloud/user-provider
+    production-assets: https://assets.bloggios.com/user-provider
 
 elasticsearch:
   server: ${ES_SERVER:localhost}
@@ -83,3 +86,6 @@ security-config:
   key-provider:
     public-key: classpath:security/pubkey.pem
     private-key: classpath:security/privkey.pem
+
+user-files:
+  profile-photo: /files/user-provider/profile

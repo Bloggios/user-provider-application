@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023-2024 Bloggios
+ * Copyright © 2023-2024 Rohit Parihar and Bloggios
  * All rights reserved.
  * This software is the property of Rohit Parihar and is protected by copyright law.
  * The software, including its source code, documentation, and associated files, may not be used, copied, modified, distributed, or sublicensed without the express written consent of Rohit Parihar.
@@ -21,42 +21,44 @@
  * limitations under the License.
  */
 
-package com.bloggios.user.dao;
+package com.bloggios.user.file;
 
-import com.bloggios.user.enums.DaoStatus;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
 
 /**
  * Owner - Rohit Parihar
  * Author - rohit
- * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.dao
- * Created_on - 28 May-2024
- * Created_at - 16 : 47
+ * Project - user-provider-write-service
+ * Package - com.bloggios.user.provider.write.file
+ * Created_on - 26 May-2024
+ * Created_at - 19 : 17
  */
 
-public abstract class EsAbstractDao<A, B extends ElasticsearchRepository<A, String>> {
+@Component
+public class DeleteFile {
 
-    protected final B repository;
+    private static final Logger logger = LoggerFactory.getLogger(DeleteFile.class);
 
-    protected EsAbstractDao(
-            B repository
-    ) {
-        this.repository = repository;
-    }
-
-    public final A initOperation(DaoStatus status, A a) {
-        return switch (status) {
-            case CREATE -> initCreate(a);
-            case UPDATE -> initUpdate(a);
-        };
-    }
-
-    protected A initUpdate(A a) {
-        return repository.save(a);
-    }
-
-    protected A initCreate(A a) {
-        return repository.save(a);
+    public void deleteImage(String path, String imageName) {
+        String imagePath = path + File.separator + imageName;
+        File file = new File(imagePath);
+        if (file.exists()) {
+            boolean delete = file.delete();
+            logger.warn("""
+                    File Deleted : {}
+                    File Name : {}
+                    Complete Path : {},
+                    """, delete, imageName, imagePath);
+        } else {
+            logger.error("""
+                    File Not found with name : {},
+                    Complete Path : {}
+                    Deletion Failed
+                    """, imageName, imagePath);
+        }
     }
 }
