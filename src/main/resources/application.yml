@@ -81,6 +81,7 @@ security-config:
       - /actuator/**
   cookie:
     cookie-name: bloggios-cookie-mgmt-token
+    refresh-cookie-name: ${ACTIVE_PROFILE:local}.bg-refresh-mgmt
     paths:
       - /user-provider/profile-auth/**
   key-provider:
