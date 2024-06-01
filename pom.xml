@@ -119,7 +119,7 @@
         <dependency>
             <groupId>com.bloggios.authentication-config</groupId>
             <artifactId>authentication-configuration-jar</artifactId>
-            <version>1.5</version>
+            <version>1.6</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
