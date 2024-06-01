@@ -80,7 +80,7 @@ security-config:
     paths:
       - /actuator/**
   cookie:
-    cookie-name: ${ACTIVE_PROFILE:local}.bg-refresh-mgmt
+    cookie-name: bloggios-cookie-mgmt-token
     paths:
       - /user-provider/profile-auth/**
   key-provider:
