@@ -1,17 +1,13 @@
 package com.bloggios.user.transformer.implementation;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
-import com.bloggios.user.dao.implementation.pgsqlimplementation.ProfileEntityDao;
 import com.bloggios.user.enums.ProfileTag;
-import com.bloggios.user.enums.UserBadge;
 import com.bloggios.user.modal.ProfileEntity;
 import com.bloggios.user.payload.request.ProfileRequest;
-import com.bloggios.user.payload.response.UserProfileResponse;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 

@@ -9,7 +9,6 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
-import javax.persistence.*;
 import java.util.Date;
 
 /**

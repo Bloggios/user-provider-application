@@ -48,6 +48,7 @@ elasticsearch:
   password: ${ES_PASSWORD:root}
   indices:
     profile: ${ACTIVE_PROFILE:local}.user-provider.profile
+    follow: ${ACTIVE_PROFILE:local}.user-provider.follow
 
 eureka:
   instance:

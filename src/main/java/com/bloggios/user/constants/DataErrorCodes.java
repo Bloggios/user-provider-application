@@ -32,4 +32,10 @@ public class DataErrorCodes {
     public static final String NOT_IMAGE_TYPE = "DE__USER-2018";
     public static final String IMAGE_SIZE_LIMIT_EXCEED = "DE__USER-2019";
     public static final String INVALID_IMAGE_NAME = "DE__USER-2020";
+    public static final String INVALID_USER_ID = "DE__USER-2021";
+    public static final String USER_CANNOT_FOLLOW_ITSELF = "DE__USER-2022";
+    public static final String USER_NOT_FOUND = "DE__USER-2023";
+    public static final String FOLLOW_TO_USER_NOT_FOUND = "DE__USER-2024";
+    public static final String USER_ALREADY_FOLLOWING_THAT_USER = "DE__USER-2025";
+    public static final String USER_NOT_FOLLOWING_EACH_OTHER = "DE__USER-2026";
 }

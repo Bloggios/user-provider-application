@@ -3,11 +3,9 @@ package com.bloggios.user.modal;
 import com.bloggios.user.constants.ServiceConstants;
 import com.bloggios.user.enums.ProfileTag;
 import com.bloggios.user.enums.UserBadge;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -77,4 +75,10 @@ public class ProfileEntity {
     private UserBadge userBadge;
 
     private boolean isBadge;
+
+    @OneToMany(mappedBy = "followTo", fetch = FetchType.EAGER)
+    private Set<FollowEntity> followTo = new HashSet<>();
+
+    @OneToMany(mappedBy = "followedBy", fetch = FetchType.EAGER)
+    private Set<FollowEntity> followedBy = new HashSet<>();
 }

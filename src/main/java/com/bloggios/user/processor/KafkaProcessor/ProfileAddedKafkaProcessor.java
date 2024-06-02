@@ -4,8 +4,6 @@ import com.bloggios.user.document.ProfileDocument;
 import com.bloggios.user.kafka.producer.producers.ProfileAddedProducer;
 import com.bloggios.user.payload.event.ProfileAddedEvent;
 import com.bloggios.user.processor.Process;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**

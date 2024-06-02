@@ -1,14 +1,9 @@
 package com.bloggios.user.payload.response;
 
-import com.bloggios.user.constants.ServiceConstants;
 import com.bloggios.user.enums.ProfileTag;
 import com.bloggios.user.enums.UserBadge;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.InnerField;
-import org.springframework.data.elasticsearch.annotations.MultiField;
 
 import java.util.Date;
 

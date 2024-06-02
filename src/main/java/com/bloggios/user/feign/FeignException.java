@@ -6,9 +6,6 @@ import com.bloggios.user.exception.payloads.InternalException;
 import com.bloggios.user.payload.response.ExceptionResponse;
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Owner - Rohit Parihar and Bloggios

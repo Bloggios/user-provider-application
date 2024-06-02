@@ -1,6 +1,5 @@
 package com.bloggios.user.transformer.implementation;
 
-import com.bloggios.user.dao.repository.elasticsearch.ProfileDocumentRepository;
 import com.bloggios.user.document.ProfileDocument;
 import com.bloggios.user.payload.response.ProfileResponse;
 import com.bloggios.user.transformer.Transform;

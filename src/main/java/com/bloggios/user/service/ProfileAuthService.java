@@ -1,8 +1,8 @@
 package com.bloggios.user.service;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
-import com.bloggios.user.payload.request.ProfileListRequest;
 import com.bloggios.elasticsearch.configuration.payload.response.ListResponse;
+import com.bloggios.user.payload.request.ProfileListRequest;
 import com.bloggios.user.payload.response.ProfileResponse;
 import com.bloggios.user.payload.response.ProfileTagResponse;
 

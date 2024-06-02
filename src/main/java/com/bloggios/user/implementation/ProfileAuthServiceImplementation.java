@@ -2,6 +2,7 @@ package com.bloggios.user.implementation;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
 import com.bloggios.elasticsearch.configuration.payload.ListRequest;
+import com.bloggios.elasticsearch.configuration.payload.response.ListResponse;
 import com.bloggios.user.constants.BeanConstants;
 import com.bloggios.user.constants.DataErrorCodes;
 import com.bloggios.user.dao.implementation.esimplementation.ProfileDocumentDao;
@@ -9,7 +10,6 @@ import com.bloggios.user.document.ProfileDocument;
 import com.bloggios.user.enums.ProfileTag;
 import com.bloggios.user.exception.payloads.BadRequestException;
 import com.bloggios.user.payload.request.ProfileListRequest;
-import com.bloggios.elasticsearch.configuration.payload.response.ListResponse;
 import com.bloggios.user.payload.response.ProfileResponse;
 import com.bloggios.user.payload.response.ProfileTagResponse;
 import com.bloggios.user.service.ProfileAuthService;

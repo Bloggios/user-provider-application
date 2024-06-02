@@ -1,20 +1,19 @@
 package com.bloggios.user.implementation;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
-import com.bloggios.user.constants.*;
+import com.bloggios.user.constants.BeanConstants;
+import com.bloggios.user.constants.DataErrorCodes;
+import com.bloggios.user.constants.EnvironmentConstants;
+import com.bloggios.user.constants.ResponseMessageConstants;
 import com.bloggios.user.dao.implementation.pgsqlimplementation.ProfileEntityDao;
 import com.bloggios.user.document.ProfileDocument;
 import com.bloggios.user.enums.DaoStatus;
 import com.bloggios.user.exception.payloads.BadRequestException;
-import com.bloggios.user.exception.payloads.InternalException;
-import com.bloggios.user.feign.AuthProviderApplicationFeign;
-import com.bloggios.user.feign.implementation.UserProfileResponseFeignCall;
 import com.bloggios.user.file.DeleteFile;
 import com.bloggios.user.file.UploadFile;
 import com.bloggios.user.modal.ProfileEntity;
 import com.bloggios.user.payload.request.ProfileRequest;
 import com.bloggios.user.payload.response.ModuleResponse;
-import com.bloggios.user.payload.response.UserProfileResponse;
 import com.bloggios.user.persistence.ProfileEntityToDocumentPersistence;
 import com.bloggios.user.processor.KafkaProcessor.ProfileAddedKafkaProcessor;
 import com.bloggios.user.service.ProfileService;

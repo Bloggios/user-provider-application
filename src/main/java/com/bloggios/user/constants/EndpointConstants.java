@@ -51,4 +51,14 @@ public class EndpointConstants {
         public static final String PROFILE_TAGS = "/profile-tags";
     }
 
+    public static class FollowController {
+        public static final String BASE_PATH = "/follow";
+        public static final String FOLLOW_USER = "/follow/{userId}";
+        public static final String UNFOLLOW_USER = "/unfollow/{userId}";
+        public static final String COUNT_FOLLOW = "/count-follow";
+    }
+
+    public static class FollowAuthController {
+        public static final String BASE_PATH = "/follow-auth";
+    }
 }
