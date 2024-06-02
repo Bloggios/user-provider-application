@@ -41,7 +41,7 @@ public class ProfileController {
 
     @PostMapping(EndpointConstants.ProfileController.ADD_PROFILE_IMAGE)
     public ResponseEntity<ModuleResponse> addImage(
-            @RequestParam MultipartFile image,
+            @RequestPart MultipartFile image,
             @AuthenticationPrincipal AuthenticatedUser authenticatedUser
     ) {
         return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.profileImage(image, authenticatedUser)));
