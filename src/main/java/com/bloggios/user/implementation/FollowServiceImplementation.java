@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -69,6 +70,7 @@ public class FollowServiceImplementation implements FollowService {
                 .followedBy(followBy)
                 .followTo(followTo)
                 .userId(authenticatedUser.getUserId())
+                .apiVersion(UUID.randomUUID().toString())
                 .version(environment.getProperty(EnvironmentConstants.APPLICATION_VERSION))
                 .followedOn(Date.from(Instant.now()))
                 .build();
