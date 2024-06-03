@@ -18,8 +18,4 @@ import java.util.concurrent.CompletableFuture;
 public interface FollowAuthService {
 
     CompletableFuture<FollowCountResponse> countFollowerFollowing(AuthenticatedUser authenticatedUser);
-    CompletableFuture<IsFollowingResponse> isFollowing(String userId, AuthenticatedUser authenticatedUser);
-//    CompletableFuture<ListResponse> userFollowers(String userId, Integer page, Integer size);
-//    CompletableFuture<ListResponse> userFollowing(String userId, Integer page, Integer size);
-//    CompletableFuture<ListResponse> followListWithUser(String key, String userId, Integer page);
 }
