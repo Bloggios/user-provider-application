@@ -49,6 +49,7 @@ public class EndpointConstants {
     public static class ProfileAuthController {
         public static final String BASE_PATH = "/profile-auth";
         public static final String PROFILE_TAGS = "/profile-tags";
+        public static final String USER_PROFILE = "/user-profile";
     }
 
     public static class FollowController {

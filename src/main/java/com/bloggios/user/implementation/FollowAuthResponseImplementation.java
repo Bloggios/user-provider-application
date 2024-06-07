@@ -6,15 +6,9 @@ import com.bloggios.user.dao.implementation.pgsqlimplementation.ProfileEntityDao
 import com.bloggios.user.exception.payloads.BadRequestException;
 import com.bloggios.user.modal.ProfileEntity;
 import com.bloggios.user.payload.response.FollowCountResponse;
-import com.bloggios.user.payload.response.IsFollowingResponse;
 import com.bloggios.user.service.FollowAuthService;
-import com.bloggios.user.utils.ValueCheckerUtil;
-import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 /**

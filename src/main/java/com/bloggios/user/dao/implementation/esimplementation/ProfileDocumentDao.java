@@ -53,5 +53,7 @@ public class ProfileDocumentDao extends EsAbstractDao<ProfileDocument, ProfileDo
         return repository.findByUserId(userId);
     }
 
-    public Optional<ProfileDocument> findByEmail(String email){return repository.findByEmail(email);}
+    public Optional<ProfileDocument> findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
 }

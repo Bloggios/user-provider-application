@@ -60,4 +60,5 @@ public class ServiceConstants {
     public static final String AUTHORIZATION = "Authorization";
     public static final String CREATED_ON = "createdOn";
     public static final String DEVSANDBOX = "devsandbox";
+    public static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
 }

@@ -2,7 +2,6 @@ package com.bloggios.user.service;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
 import com.bloggios.user.payload.response.FollowCountResponse;
-import com.bloggios.user.payload.response.IsFollowingResponse;
 
 import java.util.concurrent.CompletableFuture;
 

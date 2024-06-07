@@ -22,6 +22,5 @@ public interface ProfileAuthService {
     CompletableFuture<ProfileTagResponse> getProfileTags();
     CompletableFuture<ListResponse> getProfileList(ProfileListRequest profileListRequest);
     CompletableFuture<ProfileResponse> getMyProfile(AuthenticatedUser authenticatedUser);
-
     CompletableFuture<ProfileResponse> getResponseByEmail(String email);
 }

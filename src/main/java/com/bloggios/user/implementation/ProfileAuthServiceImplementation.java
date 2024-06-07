@@ -5,6 +5,7 @@ import com.bloggios.elasticsearch.configuration.payload.ListRequest;
 import com.bloggios.elasticsearch.configuration.payload.response.ListResponse;
 import com.bloggios.user.constants.BeanConstants;
 import com.bloggios.user.constants.DataErrorCodes;
+import com.bloggios.user.constants.ServiceConstants;
 import com.bloggios.user.dao.implementation.esimplementation.ProfileDocumentDao;
 import com.bloggios.user.document.ProfileDocument;
 import com.bloggios.user.enums.ProfileTag;
@@ -19,7 +20,6 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -86,7 +86,7 @@ public class ProfileAuthServiceImplementation implements ProfileAuthService {
                         .page(profileListRequest.getPage())
                         .size(profileListRequest.getSize())
                         .pageSize(list.size())
-                        .totalRecordsCount(searchHits!=null ? searchHits.getTotalHits() : 0)
+                        .totalRecordsCount(searchHits != null ? searchHits.getTotalHits() : 0)
                         .object(list)
                         .build());
     }
@@ -100,11 +100,13 @@ public class ProfileAuthServiceImplementation implements ProfileAuthService {
         return CompletableFuture.completedFuture(transform);
     }
 
-    public CompletableFuture<ProfileResponse> getResponseByEmail( String email){
-    Optional<ProfileDocument> profileDocument = profileDocumentDao.findByEmail(email);
-    if(profileDocument.isEmpty()) throw new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND);
-    ProfileResponse transform = profileDocumentToProfileResponseTransformer.transform(profileDocument.get());
-    return CompletableFuture.completedFuture(transform);
-
+    @Override
+    @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
+    public CompletableFuture<ProfileResponse> getResponseByEmail(String email) {
+        if (!email.matches(ServiceConstants.EMAIL_REGEX)) throw new BadRequestException(DataErrorCodes.EMAIL_NOT_VALID);
+        ProfileDocument profileDocument = profileDocumentDao.findByEmail(email)
+                .orElseThrow(()-> new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND));
+        ProfileResponse transform = profileDocumentToProfileResponseTransformer.transform(profileDocument);
+        return CompletableFuture.completedFuture(transform);
     }
 }
