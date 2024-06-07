@@ -54,4 +54,8 @@ public class ProfileAuthController {
     public ResponseEntity<ProfileResponse> getMyProfile(@AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
         return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileAuthService.getMyProfile(authenticatedUser)));
     }
+    @GetMapping("/{email1}")
+    public ResponseEntity<ProfileResponse> getResponseByEmail(@RequestParam String email,@PathVariable String email1){
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult((profileAuthService.getResponseByEmail(email))));
+    }
 }
