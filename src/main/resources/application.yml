@@ -80,6 +80,7 @@ security-config:
   exclude:
     paths:
       - /actuator/**
+      - /unauth/**
   cookie:
     cookie-name: bloggios-cookie-mgmt-token
     refresh-cookie-name: ${ACTIVE_PROFILE:local}.bg-refresh-mgmt

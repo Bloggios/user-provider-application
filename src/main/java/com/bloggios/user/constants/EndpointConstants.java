@@ -61,4 +61,9 @@ public class EndpointConstants {
     public static class FollowAuthController {
         public static final String BASE_PATH = "/follow-auth";
     }
+
+    public static class OpenController {
+        public static final String BASE_PATH = "/unauth";
+        public static final String PROFILE_INTERNAL_RESPONSE = "/profile-internal-response/{userId}";
+    }
 }

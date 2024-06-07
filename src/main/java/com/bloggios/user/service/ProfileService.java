@@ -26,6 +26,7 @@ package com.bloggios.user.service;
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
 import com.bloggios.user.payload.request.ProfileRequest;
 import com.bloggios.user.payload.response.ModuleResponse;
+import com.bloggios.user.payload.response.ProfileInternalResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,4 +46,5 @@ public interface ProfileService {
     CompletableFuture<ModuleResponse> addProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser, HttpServletRequest httpServletRequest);
     CompletableFuture<ModuleResponse> profileImage(MultipartFile multipartFile, AuthenticatedUser authenticatedUser);
     CompletableFuture<ModuleResponse> updateProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser);
+    CompletableFuture<ProfileInternalResponse> getProfileInternalResponse(String userId);
 }

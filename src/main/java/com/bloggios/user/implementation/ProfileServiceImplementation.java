@@ -5,6 +5,7 @@ import com.bloggios.user.constants.BeanConstants;
 import com.bloggios.user.constants.DataErrorCodes;
 import com.bloggios.user.constants.EnvironmentConstants;
 import com.bloggios.user.constants.ResponseMessageConstants;
+import com.bloggios.user.dao.implementation.esimplementation.ProfileDocumentDao;
 import com.bloggios.user.dao.implementation.pgsqlimplementation.ProfileEntityDao;
 import com.bloggios.user.document.ProfileDocument;
 import com.bloggios.user.enums.DaoStatus;
@@ -14,12 +15,15 @@ import com.bloggios.user.file.UploadFile;
 import com.bloggios.user.modal.ProfileEntity;
 import com.bloggios.user.payload.request.ProfileRequest;
 import com.bloggios.user.payload.response.ModuleResponse;
+import com.bloggios.user.payload.response.ProfileInternalResponse;
 import com.bloggios.user.persistence.ProfileEntityToDocumentPersistence;
 import com.bloggios.user.processor.KafkaProcessor.ProfileAddedKafkaProcessor;
 import com.bloggios.user.service.ProfileService;
+import com.bloggios.user.transformer.implementation.ProfileDocumentToProfileInternalResponseTransformer;
 import com.bloggios.user.transformer.implementation.ProfileRequestToProfileEntityTransformer;
 import com.bloggios.user.transformer.implementation.UpdateProfileRequestTransformer;
 import com.bloggios.user.utils.LinkGenerator;
+import com.bloggios.user.utils.ValueCheckerUtil;
 import com.bloggios.user.validator.implementation.exhibitor.ProfileImageExhibitor;
 import com.bloggios.user.validator.implementation.exhibitor.ProfileRequestExhibitor;
 import org.slf4j.Logger;
@@ -62,6 +66,8 @@ public class ProfileServiceImplementation implements ProfileService {
     private final UploadFile uploadFile;
     private final LinkGenerator linkGenerator;
     private final UpdateProfileRequestTransformer updateProfileRequestTransformer;
+    private final ProfileDocumentDao profileDocumentDao;
+    private final ProfileDocumentToProfileInternalResponseTransformer profileDocumentToProfileInternalResponseTransformer;
 
     public ProfileServiceImplementation(
             ProfileRequestExhibitor profileRequestExhibitor,
@@ -74,8 +80,8 @@ public class ProfileServiceImplementation implements ProfileService {
             DeleteFile deleteFile,
             UploadFile uploadFile,
             LinkGenerator linkGenerator,
-            UpdateProfileRequestTransformer updateProfileRequestTransformer
-    ) {
+            UpdateProfileRequestTransformer updateProfileRequestTransformer,
+            ProfileDocumentDao profileDocumentDao, ProfileDocumentToProfileInternalResponseTransformer profileDocumentToProfileInternalResponseTransformer) {
         this.profileRequestExhibitor = profileRequestExhibitor;
         this.profileEntityDao = profileEntityDao;
         this.profileRequestToProfileEntityTransformer = profileRequestToProfileEntityTransformer;
@@ -87,6 +93,8 @@ public class ProfileServiceImplementation implements ProfileService {
         this.uploadFile = uploadFile;
         this.linkGenerator = linkGenerator;
         this.updateProfileRequestTransformer = updateProfileRequestTransformer;
+        this.profileDocumentDao = profileDocumentDao;
+        this.profileDocumentToProfileInternalResponseTransformer = profileDocumentToProfileInternalResponseTransformer;
     }
 
     @Override
@@ -159,5 +167,15 @@ public class ProfileServiceImplementation implements ProfileService {
                         .id(profileDocument.getProfileId())
                         .build()
         );
+    }
+
+    @Override
+    @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
+    public CompletableFuture<ProfileInternalResponse> getProfileInternalResponse(String userId) {
+        ValueCheckerUtil.isValidUUID(userId);
+        ProfileDocument profileDocument = profileDocumentDao.findByUserId(userId)
+                .orElseThrow(() -> new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND));
+        ProfileInternalResponse transform = profileDocumentToProfileInternalResponseTransformer.transform(profileDocument);
+        return CompletableFuture.completedFuture(transform);
     }
 }
