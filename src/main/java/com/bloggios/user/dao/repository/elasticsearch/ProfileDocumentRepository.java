@@ -17,4 +17,5 @@ import java.util.Optional;
 public interface ProfileDocumentRepository extends ElasticsearchRepository<ProfileDocument, String> {
 
     Optional<ProfileDocument> findByUserId(String userId);
+    Optional<ProfileDocument> findByEmail(String email);
 }

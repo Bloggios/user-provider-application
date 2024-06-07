@@ -19,13 +19,14 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
  * Owner - Rohit Parihar and Bloggios
- * Author - rohit
+ * Author - rohitF
  * Project - user-provider-application
  * Package - com.bloggios.user.implementation
  * Created_on - May 26 - 2024
@@ -97,5 +98,13 @@ public class ProfileAuthServiceImplementation implements ProfileAuthService {
         if (profileOptional.isEmpty()) throw new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND);
         ProfileResponse transform = profileDocumentToProfileResponseTransformer.transform(profileOptional.get());
         return CompletableFuture.completedFuture(transform);
+    }
+
+    public CompletableFuture<ProfileResponse> getResponseByEmail( String email){
+    Optional<ProfileDocument> profileDocument = profileDocumentDao.findByEmail(email);
+    if(profileDocument.isEmpty()) throw new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND);
+    ProfileResponse transform = profileDocumentToProfileResponseTransformer.transform(profileDocument.get());
+    return CompletableFuture.completedFuture(transform);
+
     }
 }
