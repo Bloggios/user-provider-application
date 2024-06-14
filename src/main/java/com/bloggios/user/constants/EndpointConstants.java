@@ -54,8 +54,7 @@ public class EndpointConstants {
 
     public static class FollowController {
         public static final String BASE_PATH = "/follow";
-        public static final String FOLLOW_USER = "/follow/{userId}";
-        public static final String UNFOLLOW_USER = "/unfollow/{userId}";
+        public static final String HANDLE_FOLLOW = "/handle-follow/{userId}";
         public static final String COUNT_FOLLOW = "/count-follow";
     }
 

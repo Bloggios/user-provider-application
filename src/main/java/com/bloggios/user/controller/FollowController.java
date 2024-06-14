@@ -2,9 +2,12 @@ package com.bloggios.user.controller;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
 import com.bloggios.user.constants.EndpointConstants;
+import com.bloggios.user.implementation.FollowServiceImplementation;
+import com.bloggios.user.payload.response.FollowResponse;
 import com.bloggios.user.payload.response.ModuleResponse;
 import com.bloggios.user.service.FollowService;
 import com.bloggios.user.utils.AsyncUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,23 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(EndpointConstants.FollowController.BASE_PATH)
+@RequiredArgsConstructor
 public class FollowController {
 
     private final FollowService followService;
 
-    public FollowController(
-            FollowService followService
-    ) {
-        this.followService = followService;
-    }
-
-    @GetMapping(EndpointConstants.FollowController.FOLLOW_USER)
-    public ResponseEntity<ModuleResponse> followUser(@PathVariable String userId, @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
-        return ResponseEntity.ok(AsyncUtils.getAsyncResult(followService.followUser(userId, authenticatedUser)));
-    }
-
-    @GetMapping(EndpointConstants.FollowController.UNFOLLOW_USER)
-    public ResponseEntity<ModuleResponse> unfollowUser(@PathVariable String userId, @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
-        return ResponseEntity.ok(AsyncUtils.getAsyncResult(followService.unfollowUser(userId, authenticatedUser)));
+    @GetMapping(EndpointConstants.FollowController.HANDLE_FOLLOW)
+    public ResponseEntity<FollowResponse> handleFollow(@PathVariable String userId, @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult(followService.handleFollow(userId, authenticatedUser)));
     }
 }
