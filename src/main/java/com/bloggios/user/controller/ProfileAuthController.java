@@ -38,14 +38,4 @@ public class ProfileAuthController {
     public ResponseEntity<ListResponse> getProfileList(@RequestBody ProfileListRequest profileListRequest) {
         return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileAuthService.getProfileList(profileListRequest)));
     }
-
-    @GetMapping
-    public ResponseEntity<ProfileResponse> getMyProfile(@AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
-        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileAuthService.getMyProfile(authenticatedUser)));
-    }
-
-    @GetMapping(EndpointConstants.ProfileAuthController.USER_PROFILE)
-    public ResponseEntity<ProfileResponse> getResponseByEmail(@RequestParam String email){
-        return ResponseEntity.ok(AsyncUtils.getAsyncResult((profileAuthService.getResponseByEmail(email))));
-    }
 }

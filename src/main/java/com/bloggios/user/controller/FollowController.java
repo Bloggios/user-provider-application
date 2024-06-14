@@ -2,18 +2,13 @@ package com.bloggios.user.controller;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
 import com.bloggios.user.constants.EndpointConstants;
-import com.bloggios.user.implementation.FollowServiceImplementation;
 import com.bloggios.user.payload.response.FollowResponse;
-import com.bloggios.user.payload.response.ModuleResponse;
 import com.bloggios.user.service.FollowService;
 import com.bloggios.user.utils.AsyncUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Owner - Rohit Parihar and Bloggios

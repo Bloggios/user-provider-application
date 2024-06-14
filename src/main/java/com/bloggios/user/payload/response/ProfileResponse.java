@@ -38,4 +38,10 @@ public class ProfileResponse {
     private ProfileTag profileTag;
     private UserBadge userBadge;
     private boolean isBadge;
+    private long blogs;
+    private long followCount;
+    private long followingCount;
+    private long posts;
+    private long likes;
+    private long comments;
 }

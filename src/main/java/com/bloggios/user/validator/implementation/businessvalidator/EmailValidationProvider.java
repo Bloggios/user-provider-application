@@ -21,53 +21,30 @@
  * limitations under the License.
  */
 
-package com.bloggios.user.constants;
+package com.bloggios.user.validator.implementation.businessvalidator;
 
-import lombok.experimental.UtilityClass;
+import com.bloggios.user.constants.DataErrorCodes;
+import com.bloggios.user.constants.ServiceConstants;
+import com.bloggios.user.exception.payloads.BadRequestException;
+import com.bloggios.user.validator.BusinessValidator;
+import org.springframework.stereotype.Component;
 
 /**
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.constants
- * Created_on - 28 May-2024
- * Created_at - 20 : 34
+ * Package - com.bloggios.auth.provider.validator.validators
+ * Created_on - 29 November-2023
+ * Created_at - 23 : 43
  */
 
-@UtilityClass
-public class EndpointConstants {
+@Component
+public class EmailValidationProvider implements BusinessValidator<String> {
 
-    public static class ProfileController {
-        public static final String BASE_PATH = "/profile";
-        public static final String ADD_PROFILE_IMAGE = "/profile-image";
-    }
-
-    public static class FeignClient {
-        public static final String USER_PROFILE_RESPONSE = "/auth-provider/user-profile-response";
-        public static final String BLOG_COUNT_INTERNAL_RESPONSE = "/blog-provider/unauth/count-blogs";
-    }
-
-    public static class ProfileAuthController {
-        public static final String BASE_PATH = "/profile-auth";
-        public static final String PROFILE_TAGS = "/profile-tags";
-        public static final String USER_PROFILE = "/user-profile";
-    }
-
-    public static class FollowController {
-        public static final String BASE_PATH = "/follow";
-        public static final String HANDLE_FOLLOW = "/handle-follow/{userId}";
-    }
-
-    public static class OpenController {
-        public static final String BASE_PATH = "/unauth";
-        public static final String PROFILE_INTERNAL_RESPONSE = "/profile-internal-response/{userId}";
-
-        public static class Follow {
-            public static final String COUNT_FOLLOW = "/count-follow";
-        }
-
-        public static class Profile {
-            public static final String USER_PROFILE = "/user-profile";
+    @Override
+    public void validate(String email) {
+        if (!email.matches(ServiceConstants.EMAIL_REGEX)) {
+            throw new BadRequestException(DataErrorCodes.EMAIL_NOT_VALID);
         }
     }
 }

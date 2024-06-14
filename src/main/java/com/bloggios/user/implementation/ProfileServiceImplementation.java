@@ -10,20 +10,25 @@ import com.bloggios.user.dao.implementation.pgsqlimplementation.ProfileEntityDao
 import com.bloggios.user.document.ProfileDocument;
 import com.bloggios.user.enums.DaoStatus;
 import com.bloggios.user.exception.payloads.BadRequestException;
+import com.bloggios.user.feign.implementation.BlogsCountResponseCallFeign;
 import com.bloggios.user.file.DeleteFile;
 import com.bloggios.user.file.UploadFile;
 import com.bloggios.user.modal.ProfileEntity;
 import com.bloggios.user.payload.request.ProfileRequest;
+import com.bloggios.user.payload.response.BlogCountResponse;
 import com.bloggios.user.payload.response.ModuleResponse;
+import com.bloggios.user.payload.response.ProfileResponse;
 import com.bloggios.user.payload.response.ProfileInternalResponse;
 import com.bloggios.user.persistence.ProfileEntityToDocumentPersistence;
 import com.bloggios.user.processor.KafkaProcessor.ProfileAddedKafkaProcessor;
 import com.bloggios.user.service.ProfileService;
 import com.bloggios.user.transformer.implementation.ProfileDocumentToProfileInternalResponseTransformer;
+import com.bloggios.user.transformer.implementation.ProfileEntityToProfileResponseTransformer;
 import com.bloggios.user.transformer.implementation.ProfileRequestToProfileEntityTransformer;
 import com.bloggios.user.transformer.implementation.UpdateProfileRequestTransformer;
 import com.bloggios.user.utils.LinkGenerator;
 import com.bloggios.user.utils.ValueCheckerUtil;
+import com.bloggios.user.validator.implementation.businessvalidator.EmailValidationProvider;
 import com.bloggios.user.validator.implementation.exhibitor.ProfileImageExhibitor;
 import com.bloggios.user.validator.implementation.exhibitor.ProfileRequestExhibitor;
 import org.slf4j.Logger;
@@ -68,6 +73,9 @@ public class ProfileServiceImplementation implements ProfileService {
     private final UpdateProfileRequestTransformer updateProfileRequestTransformer;
     private final ProfileDocumentDao profileDocumentDao;
     private final ProfileDocumentToProfileInternalResponseTransformer profileDocumentToProfileInternalResponseTransformer;
+    private final BlogsCountResponseCallFeign blogsCountResponseCallFeign;
+    private final ProfileEntityToProfileResponseTransformer profileEntityToProfileResponseTransformer;
+    private final EmailValidationProvider emailValidationProvider;
 
     public ProfileServiceImplementation(
             ProfileRequestExhibitor profileRequestExhibitor,
@@ -81,7 +89,7 @@ public class ProfileServiceImplementation implements ProfileService {
             UploadFile uploadFile,
             LinkGenerator linkGenerator,
             UpdateProfileRequestTransformer updateProfileRequestTransformer,
-            ProfileDocumentDao profileDocumentDao, ProfileDocumentToProfileInternalResponseTransformer profileDocumentToProfileInternalResponseTransformer) {
+            ProfileDocumentDao profileDocumentDao, ProfileDocumentToProfileInternalResponseTransformer profileDocumentToProfileInternalResponseTransformer, BlogsCountResponseCallFeign blogsCountResponseCallFeign, ProfileEntityToProfileResponseTransformer profileEntityToProfileResponseTransformer, EmailValidationProvider emailValidationProvider) {
         this.profileRequestExhibitor = profileRequestExhibitor;
         this.profileEntityDao = profileEntityDao;
         this.profileRequestToProfileEntityTransformer = profileRequestToProfileEntityTransformer;
@@ -95,6 +103,9 @@ public class ProfileServiceImplementation implements ProfileService {
         this.updateProfileRequestTransformer = updateProfileRequestTransformer;
         this.profileDocumentDao = profileDocumentDao;
         this.profileDocumentToProfileInternalResponseTransformer = profileDocumentToProfileInternalResponseTransformer;
+        this.blogsCountResponseCallFeign = blogsCountResponseCallFeign;
+        this.profileEntityToProfileResponseTransformer = profileEntityToProfileResponseTransformer;
+        this.emailValidationProvider = emailValidationProvider;
     }
 
     @Override
@@ -122,6 +133,7 @@ public class ProfileServiceImplementation implements ProfileService {
     @Override
     @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
     public CompletableFuture<ModuleResponse> profileImage(MultipartFile multipartFile, AuthenticatedUser authenticatedUser) {
+        long startTime = System.currentTimeMillis();
         profileImageExhibitor.validate(multipartFile);
         ProfileEntity profileEntity = profileEntityDao.findByUserId(authenticatedUser.getUserId())
                 .orElseThrow(() -> new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND));
@@ -137,6 +149,7 @@ public class ProfileServiceImplementation implements ProfileService {
         profileEntity.setVersion(UUID.randomUUID().toString());
         ProfileEntity profileEntityResponse = profileEntityDao.initOperation(DaoStatus.UPDATE, profileEntity);
         ProfileDocument profileDocument = profileEntityToDocumentPersistence.persist(profileEntityResponse, DaoStatus.UPDATE);
+        logger.info("Execution Time (Profile Image) : {}ms", System.currentTimeMillis() - startTime);
         return CompletableFuture.completedFuture(
                 ModuleResponse
                         .builder()
@@ -150,6 +163,7 @@ public class ProfileServiceImplementation implements ProfileService {
     @Override
     @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
     public CompletableFuture<ModuleResponse> updateProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser) {
+        long startTime = System.currentTimeMillis();
         CompletableFuture<Optional<ProfileEntity>> optionalProfile = CompletableFuture.supplyAsync(() -> profileEntityDao.findByUserId(authenticatedUser.getUserId()));
         CompletableFuture<Void> validateFuture = CompletableFuture.runAsync(() -> profileRequestExhibitor.validate(profileRequest));
         CompletableFuture.allOf(optionalProfile, validateFuture).join();
@@ -159,6 +173,7 @@ public class ProfileServiceImplementation implements ProfileService {
         ProfileEntity transform = updateProfileRequestTransformer.transform(profileRequest, profileEntityOptional.get());
         ProfileEntity profileEntityResponse = profileEntityDao.initOperation(DaoStatus.UPDATE, transform);
         ProfileDocument profileDocument = profileEntityToDocumentPersistence.persist(profileEntityResponse, DaoStatus.UPDATE);
+        logger.info("Execution Time (Update Profile) : {}ms", System.currentTimeMillis() - startTime);
         return CompletableFuture.completedFuture(
                 ModuleResponse
                         .builder()
@@ -176,6 +191,20 @@ public class ProfileServiceImplementation implements ProfileService {
         ProfileDocument profileDocument = profileDocumentDao.findByUserId(userId)
                 .orElseThrow(() -> new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND));
         ProfileInternalResponse transform = profileDocumentToProfileInternalResponseTransformer.transform(profileDocument);
+        return CompletableFuture.completedFuture(transform);
+    }
+
+    @Override
+    @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
+    public CompletableFuture<ProfileResponse> getUserProfile(String email, AuthenticatedUser authenticatedUser) {
+        long startTime = System.currentTimeMillis();
+        emailValidationProvider.validate(email);
+        ProfileEntity profileEntity = profileEntityDao.findByEmail(email)
+                .orElseThrow(() -> new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND));
+        BlogCountResponse blogCountResponse = blogsCountResponseCallFeign.callFeign(profileEntity.getUserId())
+                .orElse(BlogCountResponse.builder().blogs(0).build());
+        ProfileResponse transform = profileEntityToProfileResponseTransformer.transform(profileEntity, blogCountResponse);
+        logger.info("Execution Time (Get User Profile) : {}ms", System.currentTimeMillis() - startTime);
         return CompletableFuture.completedFuture(transform);
     }
 }
