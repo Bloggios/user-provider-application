@@ -40,4 +40,6 @@ public class ResponseMessageConstants {
     public static final String PROFILE_ADDED = "Profile has be created successfully";
     public static final String PROFILE_IMAGE_ADDED = "Your profile image has been added successfully";
     public static final String PROFILE_UPDATED = "Profile Updated successfully to Bloggios";
+    public static final String FOLLOWED = "You are now following %s";
+    public static final String UNFOLLOWED = "You have unfollowed %s";
 }

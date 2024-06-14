@@ -1,6 +1,7 @@
 package com.bloggios.user.service;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
+import com.bloggios.user.payload.response.FollowResponse;
 import com.bloggios.user.payload.response.ModuleResponse;
 
 import java.util.concurrent.CompletableFuture;
@@ -16,6 +17,6 @@ import java.util.concurrent.CompletableFuture;
 
 public interface FollowService {
 
-    CompletableFuture<ModuleResponse> followUser(String userId, AuthenticatedUser authenticatedUser);
-    CompletableFuture<ModuleResponse> unfollowUser(String userId, AuthenticatedUser authenticatedUser);
+    CompletableFuture<FollowResponse> handleFollow(String userId, AuthenticatedUser authenticatedUser);
+
 }
