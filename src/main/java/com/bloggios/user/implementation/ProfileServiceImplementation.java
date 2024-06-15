@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -204,6 +205,11 @@ public class ProfileServiceImplementation implements ProfileService {
         BlogCountResponse blogCountResponse = blogsCountResponseCallFeign.callFeign(profileEntity.getUserId())
                 .orElse(BlogCountResponse.builder().blogs(0).build());
         ProfileResponse transform = profileEntityToProfileResponseTransformer.transform(profileEntity, blogCountResponse);
+        if (Objects.isNull(authenticatedUser)) {
+            transform.setCreatedOn(null);
+            transform.setUpdatedOn(null);
+            transform.setVersion(null);
+        }
         logger.info("Execution Time (Get User Profile) : {}ms", System.currentTimeMillis() - startTime);
         return CompletableFuture.completedFuture(transform);
     }
