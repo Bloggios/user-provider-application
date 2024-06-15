@@ -48,5 +48,5 @@ public interface ProfileService {
     CompletableFuture<ModuleResponse> profileImage(MultipartFile multipartFile, AuthenticatedUser authenticatedUser);
     CompletableFuture<ModuleResponse> updateProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser);
     CompletableFuture<ProfileInternalResponse> getProfileInternalResponse(String userId);
-    CompletableFuture<ProfileResponse> getUserProfile(String userId, AuthenticatedUser authenticatedUser);
+    CompletableFuture<ProfileResponse> getUserProfile(String email, AuthenticatedUser authenticatedUser);
 }
