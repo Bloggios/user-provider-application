@@ -38,4 +38,9 @@ public class ProfileAuthController {
     public ResponseEntity<ListResponse> getProfileList(@RequestBody ProfileListRequest profileListRequest) {
         return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileAuthService.getProfileList(profileListRequest)));
     }
+
+    @GetMapping
+    public ResponseEntity<ProfileResponse> getMyProfile(@AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileAuthService.getMyProfile(authenticatedUser)));
+    }
 }

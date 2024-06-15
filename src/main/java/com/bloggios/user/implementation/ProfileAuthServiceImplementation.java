@@ -40,6 +40,7 @@ public class ProfileAuthServiceImplementation implements ProfileAuthService {
 
     private final ProfileListToListRequestTransformer profileListToListRequestTransformer;
     private final ProfileDocumentDao profileDocumentDao;
+    private final ProfileDocumentToProfileResponseTransformer profileDocumentToProfileResponseTransformer;
 
     @Override
     @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
@@ -80,5 +81,14 @@ public class ProfileAuthServiceImplementation implements ProfileAuthService {
                         .totalRecordsCount(searchHits != null ? searchHits.getTotalHits() : 0)
                         .object(list)
                         .build());
+    }
+
+    @Override
+    @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
+    public CompletableFuture<ProfileResponse> getMyProfile(AuthenticatedUser authenticatedUser) {
+        Optional<ProfileDocument> profileOptional = profileDocumentDao.findByUserId(authenticatedUser.getUserId());
+        if (profileOptional.isEmpty()) throw new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND);
+        ProfileResponse transform = profileDocumentToProfileResponseTransformer.transform(profileOptional.get());
+        return CompletableFuture.completedFuture(transform);
     }
 }
