@@ -10,6 +10,7 @@ import com.bloggios.user.enums.DaoStatus;
 import com.bloggios.user.exception.payloads.BadRequestException;
 import com.bloggios.user.modal.FollowEntity;
 import com.bloggios.user.modal.ProfileEntity;
+import com.bloggios.user.payload.response.FollowCountResponse;
 import com.bloggios.user.payload.response.FollowResponse;
 import com.bloggios.user.payload.response.ModuleResponse;
 import com.bloggios.user.persistence.FollowEntityToDocumentPersistence;
@@ -67,5 +68,21 @@ public class FollowServiceImplementation implements FollowService {
             followResponse = handleFollowProcessor.process(followBy, followTo, authenticatedUser);
         }
         return CompletableFuture.completedFuture(followResponse);
+    }
+
+    @Override
+    public CompletableFuture<FollowCountResponse> countFollowerFollowing(AuthenticatedUser authenticatedUser) {
+        ProfileEntity profileEntity = profileEntityDao.findByUserId(authenticatedUser.getUserId())
+                .orElseThrow(() -> new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND));
+        int followers = profileEntity.getFollowTo().size();
+        int following = profileEntity.getFollowedBy().size();
+        return CompletableFuture.completedFuture(
+                FollowCountResponse
+                        .builder()
+                        .followers(followers)
+                        .following(following)
+                        .userId(authenticatedUser.getUserId())
+                        .build()
+        );
     }
 }

@@ -26,4 +26,8 @@ public class ProfileEntityDao extends PgAbstractDao<ProfileEntity, ProfileEntity
     public Optional<ProfileEntity> findByUserId(String userId) {
         return repository.findByUserId(userId);
     }
+
+    public Optional<ProfileEntity> findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
 }

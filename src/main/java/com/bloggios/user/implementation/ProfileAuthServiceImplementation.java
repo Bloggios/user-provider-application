@@ -16,6 +16,7 @@ import com.bloggios.user.payload.response.ProfileTagResponse;
 import com.bloggios.user.service.ProfileAuthService;
 import com.bloggios.user.transformer.implementation.ProfileDocumentToProfileResponseTransformer;
 import com.bloggios.user.transformer.implementation.ProfileListToListRequestTransformer;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.scheduling.annotation.Async;
@@ -34,21 +35,11 @@ import java.util.concurrent.CompletableFuture;
  */
 
 @Service
+@RequiredArgsConstructor
 public class ProfileAuthServiceImplementation implements ProfileAuthService {
 
     private final ProfileListToListRequestTransformer profileListToListRequestTransformer;
     private final ProfileDocumentDao profileDocumentDao;
-    private final ProfileDocumentToProfileResponseTransformer profileDocumentToProfileResponseTransformer;
-
-    public ProfileAuthServiceImplementation(
-            ProfileListToListRequestTransformer profileListToListRequestTransformer,
-            ProfileDocumentDao profileDocumentDao,
-            ProfileDocumentToProfileResponseTransformer profileDocumentToProfileResponseTransformer
-    ) {
-        this.profileListToListRequestTransformer = profileListToListRequestTransformer;
-        this.profileDocumentDao = profileDocumentDao;
-        this.profileDocumentToProfileResponseTransformer = profileDocumentToProfileResponseTransformer;
-    }
 
     @Override
     @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
@@ -89,24 +80,5 @@ public class ProfileAuthServiceImplementation implements ProfileAuthService {
                         .totalRecordsCount(searchHits != null ? searchHits.getTotalHits() : 0)
                         .object(list)
                         .build());
-    }
-
-    @Override
-    @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
-    public CompletableFuture<ProfileResponse> getMyProfile(AuthenticatedUser authenticatedUser) {
-        Optional<ProfileDocument> profileOptional = profileDocumentDao.findByUserId(authenticatedUser.getUserId());
-        if (profileOptional.isEmpty()) throw new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND);
-        ProfileResponse transform = profileDocumentToProfileResponseTransformer.transform(profileOptional.get());
-        return CompletableFuture.completedFuture(transform);
-    }
-
-    @Override
-    @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
-    public CompletableFuture<ProfileResponse> getResponseByEmail(String email) {
-        if (!email.matches(ServiceConstants.EMAIL_REGEX)) throw new BadRequestException(DataErrorCodes.EMAIL_NOT_VALID);
-        ProfileDocument profileDocument = profileDocumentDao.findByEmail(email)
-                .orElseThrow(()-> new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND));
-        ProfileResponse transform = profileDocumentToProfileResponseTransformer.transform(profileDocument);
-        return CompletableFuture.completedFuture(transform);
     }
 }
