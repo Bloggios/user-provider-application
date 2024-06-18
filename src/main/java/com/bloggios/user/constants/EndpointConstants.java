@@ -68,6 +68,7 @@ public class EndpointConstants {
 
         public static class Profile {
             public static final String USER_PROFILE = "/user-profile";
+            public static final String FETCH_PROFILES_USERNAME = "/get-username-profiles-list";
         }
     }
 }

@@ -24,6 +24,7 @@
 package com.bloggios.user.exception;
 
 import com.bloggios.authenticationconfig.exception.AuthenticationConfigException;
+import com.bloggios.elasticsearch.configuration.exception.payloads.ElasticsearchException;
 import com.bloggios.user.constants.InternalErrorCodes;
 import com.bloggios.user.constants.ServiceConstants;
 import com.bloggios.user.exception.payloads.BadRequestException;

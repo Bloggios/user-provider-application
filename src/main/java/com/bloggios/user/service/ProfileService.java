@@ -24,10 +24,13 @@
 package com.bloggios.user.service;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
+import com.bloggios.elasticsearch.configuration.payload.response.ListResponse;
+import com.bloggios.user.payload.request.ProfileListRequest;
 import com.bloggios.user.payload.request.ProfileRequest;
 import com.bloggios.user.payload.response.ModuleResponse;
 import com.bloggios.user.payload.response.ProfileResponse;
 import com.bloggios.user.payload.response.ProfileInternalResponse;
+import com.bloggios.user.payload.response.ProfileTagResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,4 +52,8 @@ public interface ProfileService {
     CompletableFuture<ModuleResponse> updateProfile(ProfileRequest profileRequest, AuthenticatedUser authenticatedUser);
     CompletableFuture<ProfileInternalResponse> getProfileInternalResponse(String userId);
     CompletableFuture<ProfileResponse> getUserProfile(String email, AuthenticatedUser authenticatedUser);
+    CompletableFuture<ProfileTagResponse> getProfileTags();
+    CompletableFuture<ListResponse> getProfileList(ProfileListRequest profileListRequest);
+    CompletableFuture<ProfileResponse> getMyProfile(AuthenticatedUser authenticatedUser);
+    CompletableFuture<ListResponse> fetchProfilesUsingUsername(String username);
 }

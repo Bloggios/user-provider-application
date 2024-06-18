@@ -6,7 +6,7 @@ import com.bloggios.user.constants.EndpointConstants;
 import com.bloggios.user.payload.request.ProfileListRequest;
 import com.bloggios.user.payload.response.ProfileResponse;
 import com.bloggios.user.payload.response.ProfileTagResponse;
-import com.bloggios.user.service.ProfileAuthService;
+import com.bloggios.user.service.ProfileService;
 import com.bloggios.user.utils.AsyncUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,20 +27,20 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProfileAuthController {
 
-    private final ProfileAuthService profileAuthService;
+    private final ProfileService profileService;
 
     @GetMapping(EndpointConstants.ProfileAuthController.PROFILE_TAGS)
     public ResponseEntity<ProfileTagResponse> getProfileTags() {
-        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileAuthService.getProfileTags()));
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.getProfileTags()));
     }
 
     @PostMapping
     public ResponseEntity<ListResponse> getProfileList(@RequestBody ProfileListRequest profileListRequest) {
-        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileAuthService.getProfileList(profileListRequest)));
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.getProfileList(profileListRequest)));
     }
 
     @GetMapping
     public ResponseEntity<ProfileResponse> getMyProfile(@AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
-        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileAuthService.getMyProfile(authenticatedUser)));
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.getMyProfile(authenticatedUser)));
     }
 }

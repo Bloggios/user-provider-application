@@ -3,6 +3,7 @@ package com.bloggios.user.payload.response;
 import com.bloggios.user.enums.ProfileTag;
 import com.bloggios.user.enums.UserBadge;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProfileResponse {
 
     private String profileId;
