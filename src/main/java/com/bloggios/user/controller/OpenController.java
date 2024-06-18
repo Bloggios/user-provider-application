@@ -41,8 +41,8 @@ public class OpenController {
     }
 
     @GetMapping(EndpointConstants.OpenController.Profile.USER_PROFILE)
-    public ResponseEntity<ProfileResponse> getUserProfile(@RequestParam String email, @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
-        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.getUserProfile(email, authenticatedUser)));
+    public ResponseEntity<ProfileResponse> getUserProfile(@RequestParam String username, @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.getUserProfile(username, authenticatedUser)));
     }
 
 }

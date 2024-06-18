@@ -11,7 +11,7 @@ follow it in all your interactions with the project.
 - [Code of Conduct](#coc)
 - [Commit Message Format](#commit)
 
-## <a name="prp"></a> Pull Request Process
+## <a href="#" name="prp"></a> Pull Request Process
 
 This document outlines the guidelines for submitting and approving pull requests (PRs) within the **bloggios_frontend** repository.
 

@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -197,10 +196,10 @@ public class ProfileServiceImplementation implements ProfileService {
 
     @Override
     @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
-    public CompletableFuture<ProfileResponse> getUserProfile(String email, AuthenticatedUser authenticatedUser) {
+    public CompletableFuture<ProfileResponse> getUserProfile(String username, AuthenticatedUser authenticatedUser) {
         long startTime = System.currentTimeMillis();
-        emailValidationProvider.validate(email);
-        ProfileEntity profileEntity = profileEntityDao.findByEmail(email)
+        emailValidationProvider.validate(username);
+        ProfileEntity profileEntity = profileEntityDao.findByUsername(username)
                 .orElseThrow(() -> new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND));
         BlogCountResponse blogCountResponse = blogsCountResponseCallFeign.callFeign(profileEntity.getUserId())
                 .orElse(BlogCountResponse.builder().blogs(0).build());
