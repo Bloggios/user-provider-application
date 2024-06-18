@@ -39,4 +39,5 @@ public class DataErrorCodes {
     public static final String USER_ALREADY_FOLLOWING_THAT_USER = "DE__USER-2025";
     public static final String USER_NOT_FOLLOWING_EACH_OTHER = "DE__USER-2026";
     public static final String EMAIL_NOT_VALID = "DE__USER-2027";
+    public static final String USERNAME_MANDATORY = "DE__USER-2028";
 }

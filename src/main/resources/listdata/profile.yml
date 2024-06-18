@@ -13,7 +13,7 @@ profile:
       sortField: name.verbatim
       searchField: name
       searchAllowed: true
-      partialSearch: true
+      partialSearch: false
     email:
       dataType: STRING
       filterField: email.verbatim

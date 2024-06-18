@@ -62,4 +62,6 @@ public class ServiceConstants {
     public static final String DEVSANDBOX = "devsandbox";
     public static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
     public static final String BLOG_PROVIDER_APPLICATION = "blog-provider-application";
+    public static final String NAME_KEY = "name";
+    public static final String USERNAME_KEY = "username";
 }

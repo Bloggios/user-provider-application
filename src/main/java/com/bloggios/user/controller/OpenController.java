@@ -1,6 +1,7 @@
 package com.bloggios.user.controller;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
+import com.bloggios.elasticsearch.configuration.payload.response.ListResponse;
 import com.bloggios.user.constants.EndpointConstants;
 import com.bloggios.user.payload.response.FollowCountResponse;
 import com.bloggios.user.payload.response.ProfileResponse;
@@ -43,6 +44,11 @@ public class OpenController {
     @GetMapping(EndpointConstants.OpenController.Profile.USER_PROFILE)
     public ResponseEntity<ProfileResponse> getUserProfile(@RequestParam String username, @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
         return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.getUserProfile(username, authenticatedUser)));
+    }
+
+    @GetMapping(EndpointConstants.OpenController.Profile.FETCH_PROFILES_USERNAME)
+    public ResponseEntity<ListResponse> fetchProfilesUsingUsername(@RequestParam String username) {
+        return ResponseEntity.ok(AsyncUtils.getAsyncResult(profileService.fetchProfilesUsingUsername(username)));
     }
 
 }
