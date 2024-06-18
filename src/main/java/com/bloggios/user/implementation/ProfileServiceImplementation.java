@@ -198,7 +198,6 @@ public class ProfileServiceImplementation implements ProfileService {
     @Async(BeanConstants.ASYNC_TASK_EXTERNAL_POOL)
     public CompletableFuture<ProfileResponse> getUserProfile(String username, AuthenticatedUser authenticatedUser) {
         long startTime = System.currentTimeMillis();
-        emailValidationProvider.validate(username);
         ProfileEntity profileEntity = profileEntityDao.findByUsername(username)
                 .orElseThrow(() -> new BadRequestException(DataErrorCodes.PROFILE_NOT_FOUND));
         BlogCountResponse blogCountResponse = blogsCountResponseCallFeign.callFeign(profileEntity.getUserId())
