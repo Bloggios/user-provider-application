@@ -270,12 +270,15 @@ public class ProfileServiceImplementation implements ProfileService {
                     .map(SearchHit::getContent)
                     .map(profileDocumentToUsernameProfileListTransformer::transform)
                     .toList();
+            List<ProfileResponse> notStartsWithInitialLetter = list
+                    .stream()
+                    .filter(profile -> !profile.getName().startsWith(String.valueOf(username.charAt(0))))
+                    .toList();
+            if (notStartsWithInitialLetter.size() != list.size()) {
+                list.removeAll(notStartsWithInitialLetter);
+                list.addAll(notStartsWithInitialLetter);
+            }
         }
-        List<ProfileResponse> notStartsWithInitialLetter = list
-                .stream()
-                .filter(profile -> !profile.getName().startsWith(String.valueOf(username.charAt(0))))
-                .toList();
-
         logger.info("Execution Time (Profiles List using Username) : {}ms", System.currentTimeMillis() - startTime);
         return CompletableFuture.completedFuture(
                 ListResponse
