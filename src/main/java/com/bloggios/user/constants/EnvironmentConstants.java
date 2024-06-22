@@ -49,8 +49,7 @@ public class EnvironmentConstants {
     public static final String PROFILE_INDEX = "elasticsearch.indices.profile";
     public static final String PROFILE_IMAGE_PATH = "user-files.profile-photo";
     public static final String ACTIVE_PROFILE = "application.profile";
-    public static final String DEVSANDBOX_ASSETS = "application.environment.devsandbox-assets";
-    public static final String PRODUCTION_ASSETS = "application.environment.production-assets";
+    public static final String ASSETS = "application.environment.devsandbox-assets";
     public static final String FOLLOW_INDEX_GET_PROPERTY = "#{@environment.getProperty('elasticsearch.indices.follow')}";
     public static final String FOLLOW_DOCUMENT_INDEX = "elasticsearch.indices.follow";
 }
