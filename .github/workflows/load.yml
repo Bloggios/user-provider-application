@@ -40,7 +40,7 @@ jobs:
             git stash
             git pull origin main
             set +e
-            docker-compose -f docker-compose-devsandbox.yml stop user-provider-application
+            docker-compose -f docker-compose-load.yml stop user-provider-application
             docker rmi user-provider-application:1.0
             set -e
 
@@ -93,7 +93,7 @@ jobs:
           port: 22
           script: |
             cd /root/bloggios-deployment-docker-files
-            docker-compose -f docker-compose-devsandbox.yml up -d user-provider-application
+            docker-compose -f docker-compose-load.yml up -d user-provider-application
 
       - name: Removing Targets
         uses: appleboy/ssh-action@master
