@@ -31,9 +31,9 @@ jobs:
       - name: Stopping Container
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.V8_HOST }}
-          username: ${{ secrets.V8_USERNAME }}
-          key: ${{ secrets.V8_VPS_PRIVATE_KEY }}
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
           port: 22
           script: |
             cd /root/bloggios-deployment-docker-files
@@ -47,9 +47,9 @@ jobs:
       - name: Copying Logback
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.V8_HOST }}
-          username: ${{ secrets.V8_USERNAME }}
-          key: ${{ secrets.V8_VPS_PRIVATE_KEY }}
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
           port: 22
           script: |
             rm /root/microservices/user-provider-application/src/main/resources/user-logback.xml
@@ -58,9 +58,9 @@ jobs:
       - name: Copying Secrets
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.V8_HOST }}
-          username: ${{ secrets.V8_USERNAME }}
-          key: ${{ secrets.V8_VPS_PRIVATE_KEY }}
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
           port: 22
           script: |
             set +e
@@ -73,9 +73,9 @@ jobs:
       - name: Generating Docker Image for Bloggios
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.V8_HOST }}
-          username: ${{ secrets.V8_USERNAME }}
-          key: ${{ secrets.V8_VPS_PRIVATE_KEY }}
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
           port: 22
           script: |
             cd /root/microservices/user-provider-application
@@ -87,9 +87,9 @@ jobs:
       - name: Deploy Docker Image
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.V8_HOST }}
-          username: ${{ secrets.V8_USERNAME }}
-          key: ${{ secrets.V8_VPS_PRIVATE_KEY }}
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
           port: 22
           script: |
             cd /root/bloggios-deployment-docker-files
@@ -98,9 +98,9 @@ jobs:
       - name: Removing Targets
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.V8_HOST }}
-          username: ${{ secrets.V8_USERNAME }}
-          key: ${{ secrets.V8_VPS_PRIVATE_KEY }}
+          host: ${{ secrets.V4_HOST }}
+          username: ${{ secrets.V4_USERNAME }}
+          key: ${{ secrets.V4_VPS_PRIVATE_KEY }}
           port: 22
           script: |
             cd /root/microservices/user-provider-application
