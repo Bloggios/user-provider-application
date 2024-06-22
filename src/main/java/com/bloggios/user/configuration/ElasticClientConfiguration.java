@@ -83,7 +83,7 @@ public class ElasticClientConfiguration extends AbstractElasticsearchConfigurati
         ClientConfiguration clientConfiguration = ClientConfiguration
                 .builder()
                 .connectedTo(server.split(","))
-//                .usingSsl(sslContext())
+                .usingSsl(sslContext())
                 .withBasicAuth(username, password)
                 .withDefaultHeaders(compatibilityHeaders)
                 .build();
