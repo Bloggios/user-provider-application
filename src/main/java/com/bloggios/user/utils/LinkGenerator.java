@@ -52,19 +52,8 @@ public class LinkGenerator {
     }
 
     public String generateLink(String imageName) {
-        String profile = environment.getProperty(EnvironmentConstants.ACTIVE_PROFILE);
-        if (ObjectUtils.isEmpty(profile)) {
-            profile = ServiceConstants.DEVSANDBOX;
-        }
-        StringBuilder sb;
-        if (profile.equalsIgnoreCase(ServiceConstants.DEVSANDBOX)) {
-            sb = new StringBuilder(Objects.requireNonNull(environment.getProperty(EnvironmentConstants.DEVSANDBOX_ASSETS)));
-        } else {
-            sb = new StringBuilder(Objects.requireNonNull(environment.getProperty(EnvironmentConstants.PRODUCTION_ASSETS)));
-        }
-        sb
-                .append("/profile/")
-                .append(imageName);
-        return sb.toString();
+        return Objects.requireNonNull(environment.getProperty(EnvironmentConstants.ASSETS)) +
+                "/profile/" +
+                imageName;
     }
 }
