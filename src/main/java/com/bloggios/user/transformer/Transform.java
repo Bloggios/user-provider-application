@@ -27,7 +27,7 @@ package com.bloggios.user.transformer;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.transformer
+ * Package - com.bloggios.user.provider.transformer
  * Created_on - 29 November-2023
  * Created_at - 14 : 57
  */

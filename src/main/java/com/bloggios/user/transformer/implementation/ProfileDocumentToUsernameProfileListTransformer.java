@@ -2,7 +2,6 @@ package com.bloggios.user.transformer.implementation;
 
 import com.bloggios.user.document.ProfileDocument;
 import com.bloggios.user.payload.response.ProfileResponse;
-import com.bloggios.user.payload.response.UserProfileResponse;
 import com.bloggios.user.transformer.Transform;
 import org.springframework.stereotype.Component;
 

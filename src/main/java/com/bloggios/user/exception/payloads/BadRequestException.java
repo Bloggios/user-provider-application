@@ -31,7 +31,7 @@ import lombok.Getter;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.exception.payloads
+ * Package - com.bloggios.user.provider.exception.payloads
  * Created_on - 29 November-2023
  * Created_at - 13 : 48
  */

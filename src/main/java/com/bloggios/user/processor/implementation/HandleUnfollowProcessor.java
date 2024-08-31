@@ -6,7 +6,6 @@ import com.bloggios.user.dao.implementation.pgsqlimplementation.FollowEntityDao;
 import com.bloggios.user.modal.FollowEntity;
 import com.bloggios.user.modal.ProfileEntity;
 import com.bloggios.user.payload.response.FollowResponse;
-import com.bloggios.user.payload.response.ModuleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

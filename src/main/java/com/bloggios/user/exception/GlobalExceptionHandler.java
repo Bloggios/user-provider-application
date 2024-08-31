@@ -24,7 +24,6 @@
 package com.bloggios.user.exception;
 
 import com.bloggios.authenticationconfig.exception.AuthenticationConfigException;
-import com.bloggios.elasticsearch.configuration.exception.payloads.ElasticsearchException;
 import com.bloggios.user.constants.InternalErrorCodes;
 import com.bloggios.user.constants.ServiceConstants;
 import com.bloggios.user.exception.payloads.BadRequestException;
@@ -50,7 +49,7 @@ import static com.bloggios.user.constants.InternalErrorCodes.INTERNAL_ERROR;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.exception
+ * Package - com.bloggios.user.provider.exception
  * Created_on - 30 November-2023
  * Created_at - 01 : 57
  */

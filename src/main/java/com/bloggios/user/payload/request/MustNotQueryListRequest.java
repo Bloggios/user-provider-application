@@ -2,7 +2,6 @@ package com.bloggios.user.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 

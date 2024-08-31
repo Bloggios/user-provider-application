@@ -30,7 +30,7 @@ import lombok.*;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.payload.response
+ * Package - com.bloggios.user.provider.payload.response
  * Created_on - 29 November-2023
  * Created_at - 00 : 09
  */

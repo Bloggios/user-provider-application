@@ -24,10 +24,8 @@
 package com.bloggios.user.utils;
 
 import com.bloggios.user.constants.EnvironmentConstants;
-import com.bloggios.user.constants.ServiceConstants;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 
 import java.util.Objects;
 

@@ -27,7 +27,7 @@ package com.bloggios.user.processor;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.processor
+ * Package - com.bloggios.user.provider.processor
  * Created_on - 02 December-2023
  * Created_at - 22 : 51
  */

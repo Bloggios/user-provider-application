@@ -25,4 +25,6 @@ public class ProfileInternalResponse {
     private String profileTag;
     private String profileImage;
     private boolean isBadge;
+    private long followers;
+    private long following;
 }

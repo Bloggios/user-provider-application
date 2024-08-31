@@ -51,7 +51,7 @@ import java.security.cert.CertificateFactory;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.configuration
+ * Package - com.bloggios.user.provider.configuration
  * Created_on - 02 December-2023
  * Created_at - 13 : 26
  */

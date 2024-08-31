@@ -34,7 +34,7 @@ import com.thoughtworks.xstream.InitializationException;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.utils
+ * Package - com.bloggios.user.provider.utils
  * Created_on - 02 December-2023
  * Created_at - 14 : 44
  */

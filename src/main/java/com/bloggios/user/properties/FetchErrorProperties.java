@@ -37,7 +37,7 @@ import static com.bloggios.user.constants.BeanConstants.ERROR_PROPERTIES_BEAN;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.properties
+ * Package - com.bloggios.user.provider.properties
  * Created_on - 11 December-2023
  * Created_at - 23 : 20
  */

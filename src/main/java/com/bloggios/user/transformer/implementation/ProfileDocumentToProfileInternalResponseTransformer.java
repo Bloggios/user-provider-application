@@ -1,8 +1,11 @@
 package com.bloggios.user.transformer.implementation;
 
 import com.bloggios.user.document.ProfileDocument;
+import com.bloggios.user.payload.response.FollowCountResponse;
 import com.bloggios.user.payload.response.ProfileInternalResponse;
+import com.bloggios.user.processor.fetch.FetchUserFollowFollowingCount;
 import com.bloggios.user.transformer.Transform;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -17,10 +20,14 @@ import java.util.Objects;
  */
 
 @Component
+@RequiredArgsConstructor
 public class ProfileDocumentToProfileInternalResponseTransformer implements Transform<ProfileInternalResponse, ProfileDocument> {
+
+    private final FetchUserFollowFollowingCount fetchUserFollowFollowingCount;
 
     @Override
     public ProfileInternalResponse transform(ProfileDocument profileDocument) {
+        FollowCountResponse followCountResponse = fetchUserFollowFollowingCount.fetch(profileDocument.getUserId());
         return ProfileInternalResponse
                 .builder()
                 .name(profileDocument.getName())
@@ -28,6 +35,8 @@ public class ProfileDocumentToProfileInternalResponseTransformer implements Tran
                 .profileImage(profileDocument.getProfileImage())
                 .profileTag(Objects.nonNull(profileDocument.getProfileTag()) ? profileDocument.getProfileTag().getValue() : null)
                 .isBadge(profileDocument.isBadge())
+                .followers(followCountResponse.getFollowers())
+                .following(followCountResponse.getFollowing())
                 .build();
     }
 }

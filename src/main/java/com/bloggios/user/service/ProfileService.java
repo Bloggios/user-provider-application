@@ -28,8 +28,8 @@ import com.bloggios.elasticsearch.configuration.payload.response.ListResponse;
 import com.bloggios.user.payload.request.ProfileListRequest;
 import com.bloggios.user.payload.request.ProfileRequest;
 import com.bloggios.user.payload.response.ModuleResponse;
-import com.bloggios.user.payload.response.ProfileResponse;
 import com.bloggios.user.payload.response.ProfileInternalResponse;
+import com.bloggios.user.payload.response.ProfileResponse;
 import com.bloggios.user.payload.response.ProfileTagResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,7 +40,7 @@ import java.util.concurrent.CompletableFuture;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-write-service
- * Package - com.bloggios.auth.provider.write.service
+ * Package - com.bloggios.user.provider.write.service
  * Created_on - 30 December-2023
  * Created_at - 16 : 23
  */

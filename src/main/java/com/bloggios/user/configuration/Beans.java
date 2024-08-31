@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Configuration;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.configuration
+ * Package - com.bloggios.user.provider.configuration
  * Created_on - 30 November-2023
  * Created_at - 19 : 53
  */

@@ -34,7 +34,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.configuration
+ * Package - com.bloggios.user.provider.configuration
  * Created_on - 29 November-2023
  * Created_at - 15 : 13
  */

@@ -33,7 +33,7 @@ import java.util.Objects;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.utils
+ * Package - com.bloggios.user.provider.utils
  * Created_on - 01 March-2024
  * Created_at - 20 : 44
  */

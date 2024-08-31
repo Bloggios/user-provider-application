@@ -29,7 +29,7 @@ import lombok.experimental.UtilityClass;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.constants
+ * Package - com.bloggios.user.provider.constants
  * Created_on - 28 May-2024
  * Created_at - 20 : 34
  */
@@ -56,15 +56,12 @@ public class EndpointConstants {
     public static class FollowController {
         public static final String BASE_PATH = "/follow";
         public static final String HANDLE_FOLLOW = "/handle-follow/{userId}";
+        public static final String COUNT_FOLLOW = "/count";
     }
 
     public static class OpenController {
         public static final String BASE_PATH = "/unauth";
         public static final String PROFILE_INTERNAL_RESPONSE = "/profile-internal-response/{userId}";
-
-        public static class Follow {
-            public static final String COUNT_FOLLOW = "/count-follow";
-        }
 
         public static class Profile {
             public static final String USER_PROFILE = "/user-profile";

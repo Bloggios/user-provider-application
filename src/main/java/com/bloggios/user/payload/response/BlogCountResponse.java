@@ -7,7 +7,7 @@ import lombok.*;
  * Owner - Rohit Parihar and Bloggios
  * Author - rohit
  * Project - blog-provider-application
- * Package - com.bloggios.blog.payload.response
+ * Package - com.bloggios.user.payload.response
  * Created_on - June 14 - 2024
  * Created_at - 19:34
  */

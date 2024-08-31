@@ -31,7 +31,7 @@ import org.springframework.http.HttpStatus;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.payload.response
+ * Package - com.bloggios.user.provider.payload.response
  * Created_on - 11 December-2023
  * Created_at - 23 : 22
  */

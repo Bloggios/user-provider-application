@@ -80,6 +80,17 @@ security-config:
     paths:
       - /actuator/**
       - /unauth/**
+      - /api/v1/auth/**"
+      - /v2/api-docs
+      - /swagger-resources
+      - /swagger-resources/**
+      - /configuration/ui
+      - /configuration/security
+      - /swagger-ui/**
+      - /webjars/**
+      - /swagger-ui.html
+      - /v3/api-docs
+      - /v3/api-docs/**
   cookie:
     cookie-name: bloggios-cookie-mgmt-token
     refresh-cookie-name: ${ACTIVE_PROFILE:local}.bg-refresh-mgmt
@@ -91,3 +102,27 @@ security-config:
 
 user-files:
   profile-photo: /files/user-provider/profile
+
+swagger-properties:
+  group-name:
+    definition: ${spring.application.name}
+    scan-packages: com.bloggios.user
+  info:
+    title: Bloggios - User Provider Application
+    version: @version@
+    description: API Documentation for blog-provider-application
+    summary: The User Provider Application, developed with Java 17 and Spring Boot, is a critical microservice responsible for managing user data. This microservice handles all user-related activities, including profiles, settings, and follow-following functionalities. It is essential for maintaining comprehensive and user management within the system.
+    contact:
+      name: Bloggios
+      email: support@bloggios.com
+      url: https://www.bloggios.com
+    license:
+      name: Apache 2 License
+      url: https://github.com/Bloggios/user-provider-application/blob/main/LICENSE
+  servers:
+    local:
+      name: Local Port
+      url: http://localhost:${server.port}/user-provider
+    production:
+      name: Hosted Port
+      url: https://api.bloggios.com/user-provider

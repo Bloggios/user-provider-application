@@ -31,7 +31,7 @@ import lombok.EqualsAndHashCode;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.exception
+ * Package - com.bloggios.user.provider.exception
  * Created_on - 29 November-2023
  * Created_at - 01 : 55
  */

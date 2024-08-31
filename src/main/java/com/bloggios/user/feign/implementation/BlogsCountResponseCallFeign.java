@@ -2,13 +2,10 @@ package com.bloggios.user.feign.implementation;
 
 import com.bloggios.user.feign.BlogProviderApplicationFeign;
 import com.bloggios.user.payload.response.BlogCountResponse;
-import com.bloggios.user.payload.response.UserProfileResponse;
-import com.bloggios.user.utils.TokenExtractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**

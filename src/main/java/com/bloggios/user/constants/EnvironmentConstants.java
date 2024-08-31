@@ -29,7 +29,7 @@ import lombok.experimental.UtilityClass;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.constants
+ * Package - com.bloggios.user.provider.constants
  * Created_on - 29 November-2023
  * Created_at - 00 : 58
  */

@@ -30,7 +30,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.dao
+ * Package - com.bloggios.user.provider.dao
  * Created_on - 28 May-2024
  * Created_at - 16 : 47
  */

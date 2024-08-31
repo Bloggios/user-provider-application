@@ -34,7 +34,7 @@ import java.util.Date;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.dao
+ * Package - com.bloggios.user.provider.dao
  * Created_on - 29 November-2023
  * Created_at - 23 : 55
  */

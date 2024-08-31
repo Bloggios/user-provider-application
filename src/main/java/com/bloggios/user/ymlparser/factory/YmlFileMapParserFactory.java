@@ -37,7 +37,7 @@ import java.util.Properties;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.ymlparser.factory
+ * Package - com.bloggios.user.provider.ymlparser.factory
  * Created_on - 28 May-2024
  * Created_at - 13 : 39
  */

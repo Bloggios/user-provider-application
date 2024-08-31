@@ -27,7 +27,7 @@ package com.bloggios.user.enums;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.enums
+ * Package - com.bloggios.user.provider.enums
  * Created_on - 29 November-2023
  * Created_at - 00 : 52
  */

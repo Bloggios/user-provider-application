@@ -35,7 +35,7 @@ import static com.bloggios.user.constants.BeanConstants.INCOMING_MESSAGE_FACTORY
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.kafka.consumer
+ * Package - com.bloggios.user.provider.kafka.consumer
  * Created_on - 02 December-2023
  * Created_at - 21 : 23
  */

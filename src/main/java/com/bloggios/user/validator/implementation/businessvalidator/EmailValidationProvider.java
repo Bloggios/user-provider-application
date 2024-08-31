@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
  * Owner - Rohit Parihar
  * Author - rohit
  * Project - auth-provider-application
- * Package - com.bloggios.auth.provider.validator.validators
+ * Package - com.bloggios.user.provider.validator.validators
  * Created_on - 29 November-2023
  * Created_at - 23 : 43
  */

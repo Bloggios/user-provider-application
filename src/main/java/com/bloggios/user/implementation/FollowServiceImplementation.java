@@ -2,31 +2,22 @@ package com.bloggios.user.implementation;
 
 import com.bloggios.authenticationconfig.payload.AuthenticatedUser;
 import com.bloggios.user.constants.DataErrorCodes;
-import com.bloggios.user.constants.EnvironmentConstants;
-import com.bloggios.user.dao.implementation.esimplementation.FollowDocumentDao;
 import com.bloggios.user.dao.implementation.pgsqlimplementation.FollowEntityDao;
 import com.bloggios.user.dao.implementation.pgsqlimplementation.ProfileEntityDao;
-import com.bloggios.user.enums.DaoStatus;
 import com.bloggios.user.exception.payloads.BadRequestException;
 import com.bloggios.user.modal.FollowEntity;
 import com.bloggios.user.modal.ProfileEntity;
 import com.bloggios.user.payload.response.FollowCountResponse;
 import com.bloggios.user.payload.response.FollowResponse;
-import com.bloggios.user.payload.response.ModuleResponse;
-import com.bloggios.user.persistence.FollowEntityToDocumentPersistence;
 import com.bloggios.user.processor.implementation.HandleFollowProcessor;
 import com.bloggios.user.processor.implementation.HandleUnfollowProcessor;
 import com.bloggios.user.service.FollowService;
 import com.bloggios.user.utils.AsyncUtils;
 import com.bloggios.user.utils.ValueCheckerUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 /**
